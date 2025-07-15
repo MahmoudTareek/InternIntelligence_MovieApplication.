@@ -106,7 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: 20.0),
                             defaultButton(
                               function: () {
-                                navigateTo(context, HomeScreen());
+                                // navigateTo(context, HomeScreen());
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(),
+                                  ),
+                                );
                                 if (formKey.currentState!.validate()) {
                                   // OrdersCubit.get(context).userLogin(
                                   //   email: emailController.text,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
+import 'package:movies_application/modules/login_screen.dart';
 import 'package:movies_application/shared/components.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -54,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                   }
                   return null;
                 },
-                label: 'email',
+                label: 'Email',
                 prefix: Icons.email,
               ),
               SizedBox(height: 30),
@@ -64,10 +65,10 @@ class ProfileScreen extends StatelessWidget {
                     child: defaultButton(
                       function: () {
                         // MoviesCubit.get(context).logout();
-                        Navigator.pop(context);
                       },
                       text: 'update',
                       background: Colors.blue,
+                      radius: 50.0,
                     ),
                   ),
                   SizedBox(width: 10),
@@ -75,10 +76,20 @@ class ProfileScreen extends StatelessWidget {
                     child: defaultButton(
                       function: () {
                         // MoviesCubit.get(context).logout();
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => BlocProvider(
+                                  create: (context) => MoviesCubit(),
+                                  child: LoginScreen(),
+                                ),
+                          ),
+                        );
                       },
                       text: 'Logout',
                       background: Colors.red,
+                      radius: 50.0,
                     ),
                   ),
                 ],

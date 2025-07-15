@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/modules/favorites_screen.dart';
 import 'package:movies_application/modules/movies_screen.dart';
 import 'package:movies_application/modules/profile_screen.dart';
+import 'package:movies_application/shared/components.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitialState());
@@ -13,22 +14,22 @@ class MoviesCubit extends Cubit<MoviesState> {
   int currentIndex = 0;
 
   List<BottomNavigationBarItem> bottomItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
     BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
   ];
 
-  List<String> titles = ['Favorites', 'Movies', 'Profile'];
+  List<String> titles = ['Movies', 'Favorites', 'Profile'];
 
-  List<Widget> screens = [FavoritesScreen(), MoviesScreen(), ProfileScreen()];
+  List<Widget> screens = [MoviesScreen(), FavoritesScreen(), ProfileScreen()];
 
   void changeBottomNavBar(int index) {
     currentIndex = index;
     if (index == 0) {
-      FavoritesScreen();
+      MoviesScreen();
     }
     if (index == 1) {
-      MoviesScreen();
+      FavoritesScreen();
     }
     if (index == 2) {
       ProfileScreen();
@@ -39,5 +40,11 @@ class MoviesCubit extends Cubit<MoviesState> {
   void changeIndex(int index) {
     currentIndex = index;
     emit(MoviesChangeBottomNavBarState());
+  }
+
+  void changeFavorite() {
+    isFavorite = !isFavorite;
+    print('object');
+    emit(MoviesChangeFavoriteState());
   }
 }

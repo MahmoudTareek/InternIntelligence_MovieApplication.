@@ -4,6 +4,8 @@ class MoviesInitialState extends MoviesState {}
 
 class MoviesChangeBottomNavBarState extends MoviesState {}
 
+class MoviesChangeFavoriteState extends MoviesState {}
+
 class MoviesLoginSucessState extends MoviesState {}
 
 class MoviesLoginLoadingState extends MoviesState {}
