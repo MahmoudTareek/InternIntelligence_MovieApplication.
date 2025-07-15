@@ -6,6 +6,8 @@ class MoviesChangeBottomNavBarState extends MoviesState {}
 
 class MoviesChangeFavoriteState extends MoviesState {}
 
+class MoviesChangePasswordVisibilityState extends MoviesState {}
+
 class MoviesLoginSucessState extends MoviesState {}
 
 class MoviesLoginLoadingState extends MoviesState {}

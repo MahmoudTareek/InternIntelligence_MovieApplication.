@@ -14,12 +14,12 @@ class MoviesCubit extends Cubit<MoviesState> {
   int currentIndex = 0;
 
   List<BottomNavigationBarItem> bottomItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
+    BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
   ];
 
-  List<String> titles = ['Movies', 'Favorites', 'Profile'];
+  List<String> titles = ['Home', 'Favorites', 'Profile'];
 
   List<Widget> screens = [MoviesScreen(), FavoritesScreen(), ProfileScreen()];
 
@@ -46,5 +46,15 @@ class MoviesCubit extends Cubit<MoviesState> {
     isFavorite = !isFavorite;
     print('object');
     emit(MoviesChangeFavoriteState());
+  }
+
+  IconData suffixIcon = Icons.visibility_outlined;
+  bool isPassword = true;
+
+  void changePasswordVisibility() {
+    isPassword = !isPassword;
+    suffixIcon =
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    emit(MoviesChangePasswordVisibilityState());
   }
 }

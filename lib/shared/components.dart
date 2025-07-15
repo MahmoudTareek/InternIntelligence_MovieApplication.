@@ -65,17 +65,17 @@ Widget defaultFormField({
     ),
     labelText: label,
     prefixIcon: Icon(prefix, color: Colors.white),
-    // suffix:
-    //     suffix != null
-    //         ? IconButton(
-    //           onPressed: () {
-    //             OrdersCubit.get(context).changePasswordVisibility();
-    //             isPassword = !isPassword;
-    //             suffixPrssed!();
-    //           },
-    //           icon: Icon(suffix),
-    //         )
-    //         : null,
+    suffix:
+        suffix != null
+            ? IconButton(
+              onPressed: () {
+                MoviesCubit.get(context).changePasswordVisibility();
+                isPassword = !isPassword;
+                suffixPrssed!();
+              },
+              icon: Icon(suffix, color: secondryColor),
+            )
+            : null,
     border: OutlineInputBorder(),
   ),
 );
