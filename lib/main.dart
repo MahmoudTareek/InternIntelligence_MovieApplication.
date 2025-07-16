@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/modules/home_Screen.dart';
 import 'package:movies_application/modules/login_screen.dart';
+import 'package:movies_application/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

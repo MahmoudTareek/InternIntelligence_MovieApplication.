@@ -10,94 +10,102 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController userNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(
-                    'https://painrehabproducts.com/wp-content/uploads/2014/10/facebook-default-no-profile-pic.jpg',
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-              defaultFormField(
-                context: context,
-                controller: userNameController,
-                type: TextInputType.text,
-                validate: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-                label: 'User Name',
-                prefix: Icons.person,
-              ),
-              SizedBox(height: 20),
-              defaultFormField(
-                context: context,
-                controller: emailController,
-                type: TextInputType.text,
-                validate: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter your email';
-                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return 'Please enter a valid email address';
-                  }
-                  return null;
-                },
-                label: 'Email',
-                prefix: Icons.email,
-              ),
-              SizedBox(height: 30),
-              Row(
+    return BlocConsumer<MoviesCubit, MoviesState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = MoviesCubit.get(context);
+        TextEditingController userNameController = TextEditingController(
+          text: cubit.user?.username.toString(),
+        );
+        TextEditingController emailController = TextEditingController(
+          text: cubit.user?.email.toString(),
+        );
+        return Scaffold(
+          backgroundColor: Colors.black,
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: defaultButton(
-                      function: () {
-                        // MoviesCubit.get(context).logout();
-                      },
-                      text: 'update',
-                      background: Colors.blue,
-                      radius: 50.0,
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        'https://painrehabproducts.com/wp-content/uploads/2014/10/facebook-default-no-profile-pic.jpg',
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: defaultButton(
-                      function: () {
-                        // MoviesCubit.get(context).logout();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => BlocProvider(
-                                  create: (context) => MoviesCubit(),
-                                  child: LoginScreen(),
-                                ),
-                          ),
-                        );
-                      },
-                      text: 'Logout',
-                      background: Colors.red,
-                      radius: 50.0,
-                    ),
+                  SizedBox(height: 30),
+                  defaultFormField(
+                    context: context,
+                    controller: userNameController,
+                    type: TextInputType.text,
+                    validate: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                    label: 'User Name',
+                    prefix: Icons.person,
+                  ),
+                  SizedBox(height: 20),
+                  defaultFormField(
+                    context: context,
+                    controller: emailController,
+                    type: TextInputType.text,
+                    validate: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your email';
+                      } else if (!RegExp(
+                        r'^[^@]+@[^@]+\.[^@]+',
+                      ).hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                    label: 'Email',
+                    prefix: Icons.email,
+                  ),
+                  SizedBox(height: 30),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: defaultButton(
+                          function: () {
+                            MoviesCubit.get(context).updateUserData(
+                              id: cubit.userID.toString(),
+                              username: userNameController.text,
+                              email: emailController.text,
+                            );
+                          },
+                          text: 'update',
+                          background: Colors.blue,
+                          radius: 50.0,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: defaultButton(
+                          function: () {
+                            MoviesCubit.get(
+                              context,
+                            ).userSignout(context: context);
+                          },
+                          text: 'Logout',
+                          background: Colors.red,
+                          radius: 50.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

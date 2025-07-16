@@ -107,18 +107,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             defaultButton(
                               function: () {
                                 // navigateTo(context, HomeScreen());
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => HomeScreen(),
+                                //   ),
+                                // );
                                 if (formKey.currentState!.validate()) {
-                                  // OrdersCubit.get(context).userLogin(
-                                  //   email: emailController.text,
-                                  //   password: passwordController.text,
-                                  //   context: context,
-                                  // );
+                                  MoviesCubit.get(context).userLogin(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    context: context,
+                                  );
                                 }
                               },
                               text: 'login',

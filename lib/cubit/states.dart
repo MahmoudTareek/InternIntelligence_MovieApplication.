@@ -27,3 +27,23 @@ class MoviesLogoutErrorState extends MoviesState {
 
   MoviesLogoutErrorState(this.error);
 }
+
+class MoviesUserDataSucessState extends MoviesState {}
+
+class MoviesUserDataLoadingState extends MoviesState {}
+
+class MoviesUserDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesUserDataErrorState(this.error);
+}
+
+class MoviesUserUpdateDataSucessState extends MoviesState {}
+
+class MoviesUserUpdateDataLoadingState extends MoviesState {}
+
+class MoviesUserUpdateDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesUserUpdateDataErrorState(this.error);
+}
