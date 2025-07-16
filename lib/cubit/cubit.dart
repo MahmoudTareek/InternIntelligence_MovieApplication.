@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:movies_application/shared/network/tmdb_service.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitialState());
@@ -168,5 +169,32 @@ class MoviesCubit extends Cubit<MoviesState> {
             fontSize: 16.0,
           );
         });
+  }
+
+  List<dynamic> trendingMovies = [];
+
+  void fetchTrendingMovies() async {
+    emit(MoviesGetTrendingMoviesLoadingState());
+    try {
+      final movies = trendingMovies = await TMDBService().getTrendingMovies();
+      trendingMovies = movies;
+      emit(MoviesGetTrendingMoviesSucessState());
+    } catch (error) {
+      emit(MoviesGetTrendingMoviesErrorState(error.toString()));
+    }
+  }
+
+  List<dynamic> genres = [];
+
+  Future<void> fetchGenres() async {
+    emit(MoviesGetGenresLoadingState());
+    try {
+      final service = TMDBService();
+      final data = await service.getMovieGenres();
+      genres = data;
+      emit(MoviesGetGenresSucessState());
+    } catch (error) {
+      emit(MoviesGetGenresErrorState(error.toString()));
+    }
   }
 }

@@ -106,8 +106,8 @@ Widget itemBuilder({
   required String imageUrl,
   required int itemCount,
   required IconData favorite,
-  // IconData? favoriteIcon,
   Function? favoritePrssed,
+  Map<String, dynamic> Function(int)? customItemBuilder,
   required Function(int) onTap,
 }) => Column(
   children: [
@@ -131,47 +131,52 @@ Widget itemBuilder({
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
-        itemBuilder:
-            (context, index) => InkWell(
-              onTap: () {
-                onTap(index);
-              },
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Container(
-                    width: 150.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      image: DecorationImage(
-                        image: NetworkImage(imageUrl),
-                        fit: BoxFit.cover,
-                      ),
+        itemBuilder: (context, index) {
+          final itemData =
+              customItemBuilder != null ? customItemBuilder(index) : {};
+          final img = itemData['imageUrl'] ?? imageUrl;
+          return InkWell(
+            onTap: () {
+              onTap(index);
+            },
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  width: 150.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+
+                    image: DecorationImage(
+                      image: NetworkImage(img),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      MoviesCubit.get(context).changeFavorite();
-                    },
-                    icon: Icon(
-                      Icons.favorite,
-                      color: isFavorite ? primaryColor : secondryColor,
-                      size: 30,
-                    ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    MoviesCubit.get(context).changeFavorite();
+                  },
+                  icon: Icon(
+                    Icons.favorite,
+                    color: isFavorite ? primaryColor : secondryColor,
+                    size: 30,
                   ),
-                  // IconButton(
-                  //   onPressed: () {
-                  //     isFavorite = !isFavorite;
-                  //     print(isFavorite);
-                  //   },
-                  //   icon:
-                  //       isFavorite
-                  //           ? Icon(favorite, color: primaryColor, size: 40.0)
-                  //           : Icon(favorite, color: secondryColor, size: 40.0),
-                  // ),
-                ],
-              ),
+                ),
+                // IconButton(
+                //   onPressed: () {
+                //     isFavorite = !isFavorite;
+                //     print(isFavorite);
+                //   },
+                //   icon:
+                //       isFavorite
+                //           ? Icon(favorite, color: primaryColor, size: 40.0)
+                //           : Icon(favorite, color: secondryColor, size: 40.0),
+                // ),
+              ],
             ),
+          );
+        },
         separatorBuilder: (context, index) => SizedBox(width: 20.0),
         itemCount: itemCount,
       ),

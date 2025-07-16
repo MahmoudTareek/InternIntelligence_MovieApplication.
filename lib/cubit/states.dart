@@ -47,3 +47,23 @@ class MoviesUserUpdateDataErrorState extends MoviesState {
 
   MoviesUserUpdateDataErrorState(this.error);
 }
+
+class MoviesGetTrendingMoviesSucessState extends MoviesState {}
+
+class MoviesGetTrendingMoviesLoadingState extends MoviesState {}
+
+class MoviesGetTrendingMoviesErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetTrendingMoviesErrorState(this.error);
+}
+
+class MoviesGetGenresSucessState extends MoviesState {}
+
+class MoviesGetGenresLoadingState extends MoviesState {}
+
+class MoviesGetGenresErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetGenresErrorState(this.error);
+}

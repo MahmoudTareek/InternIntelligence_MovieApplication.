@@ -10,11 +10,25 @@ class MoviesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MoviesCubit(),
+      create:
+          (context) =>
+              MoviesCubit()
+                ..fetchTrendingMovies()
+                ..fetchGenres(),
       child: BlocConsumer<MoviesCubit, MoviesState>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = MoviesCubit.get(context);
+          if (cubit.trendingMovies.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(color: primaryColor),
+            );
+          }
+          if (cubit.genres.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(color: primaryColor),
+            );
+          }
           return Scaffold(
             backgroundColor: Colors.black,
             body: Padding(
@@ -40,41 +54,52 @@ class MoviesScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         SizedBox(
-                          height: 150,
+                          height: 54,
                           child: ListView.separated(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemBuilder:
-                                (context, index) => GestureDetector(
-                                  onTap: () {
-                                    print('Category Clicked: $index');
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.all(2.0),
-                                        decoration: BoxDecoration(
-                                          color: primaryColor,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                            'https://painrehabproducts.com/wp-content/uploads/2014/10/facebook-default-no-profile-pic.jpg',
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Category $index',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
+                            itemBuilder: (context, index) {
+                              final genre = cubit.genres[index];
+                              return Column(
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      print(
+                                        'Category Clicked: ${genre['name']}',
+                                      );
+                                    },
+                                    child: Text(
+                                      '${genre['name']}',
+                                      style: TextStyle(color: secondryColor),
+                                    ),
                                   ),
-                                ),
+                                  // Container(
+                                  //   padding: EdgeInsets.all(2.0),
+                                  //   decoration: BoxDecoration(
+                                  //     color: primaryColor,
+                                  //     shape: BoxShape.circle,
+                                  //   ),
+                                  //   child: CircleAvatar(
+                                  //     radius: 50,
+                                  //     backgroundImage: NetworkImage(
+                                  //       'https://painrehabproducts.com/wp-content/uploads/2014/10/facebook-default-no-profile-pic.jpg',
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  SizedBox(height: 5),
+                                  // Text(
+                                  //   '${genre['name']}',
+                                  //   style: TextStyle(color: Colors.white),
+                                  // ),
+                                ],
+                              );
+                            },
                             separatorBuilder:
                                 (context, index) => SizedBox(width: 10),
-                            itemCount: 7,
+                            itemCount: cubit.genres.length,
                           ),
                         ),
                       ],
@@ -82,13 +107,23 @@ class MoviesScreen extends StatelessWidget {
                     itemBuilder(
                       favorite: Icons.favorite,
                       onTap: (index) {
-                        print('Trending Movies Clicked: $index');
+                        print(
+                          'Tapped: ${cubit.trendingMovies[index]['title']}',
+                        );
                       },
                       icon: Icons.trending_up,
                       text: 'Trending',
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPrvnm34EFXIQVMbSYNbBEmP5hUUIW2abNRw&s',
-                      itemCount: 10,
+                      imageUrl: '',
+                      customItemBuilder: (index) {
+                        final movie = cubit.trendingMovies[index];
+                        return {
+                          'imageUrl':
+                              movie['poster_path'] != null
+                                  ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
+                                  : 'https://via.placeholder.com/150',
+                        };
+                      },
+                      itemCount: cubit.trendingMovies.length,
                     ),
                     SizedBox(height: 20),
                     itemBuilder(
