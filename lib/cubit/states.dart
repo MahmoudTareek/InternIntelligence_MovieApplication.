@@ -97,3 +97,13 @@ class MoviesRemoveFavoriteDataErrorState extends MoviesState {
 
   MoviesRemoveFavoriteDataErrorState(this.error);
 }
+
+class MoviesSearchSuccessState extends MoviesState {}
+
+class MoviesSearchLoadingState extends MoviesState {}
+
+class MoviesSearchErrorState extends MoviesState {
+  final String error;
+
+  MoviesSearchErrorState(this.error);
+}

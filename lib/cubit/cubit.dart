@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:movies_application/shared/network/endpoints.dart';
 import 'package:movies_application/shared/network/tmdb_service.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
@@ -274,5 +276,26 @@ class MoviesCubit extends Cubit<MoviesState> {
         .catchError((error) {
           emit(MoviesRemoveFavoriteDataErrorState(error.toString()));
         });
+  }
+
+  List<Map<String, dynamic>> searchResults = [];
+  void searchMovies(String query) async {
+    emit(MoviesSearchLoadingState());
+    if (query.isEmpty) {
+      searchResults = [];
+      emit(MoviesSearchSuccessState());
+      return;
+    }
+    try {
+      final response = await Dio().get(
+        'https://api.themoviedb.org/3/search/movie',
+        queryParameters: {'api_key': apiKey, 'query': query},
+      );
+
+      searchResults = List<Map<String, dynamic>>.from(response.data['results']);
+      emit(MoviesSearchSuccessState());
+    } catch (error) {
+      emit(MoviesSearchErrorState(error.toString()));
+    }
   }
 }
