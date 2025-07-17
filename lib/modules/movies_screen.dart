@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
+import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/shared/components.dart';
 
 class MoviesScreen extends StatelessWidget {
@@ -85,7 +86,15 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
-                      print('Trending Movies Clicked: $index');
+                      print(
+                        'Trending Movies Clicked: ${cubit.trendingMovies[index]['id']}',
+                      );
+                      navigateTo(
+                        context,
+                        SelectedMovieScreen(
+                          movieId: cubit.trendingMovies[index]['id'],
+                        ),
+                      );
                     },
                     icon: Icons.trending_up,
                     text: 'Trending',
@@ -140,9 +149,7 @@ class MoviesScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   itemBuilder(
                     onFavoriteTap: (index) {},
-
                     color: color,
-
                     favorite: Icons.favorite,
                     onTap: (index) {
                       print('Series Clicked: $index');

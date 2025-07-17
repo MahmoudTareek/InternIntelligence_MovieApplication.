@@ -107,3 +107,13 @@ class MoviesSearchErrorState extends MoviesState {
 
   MoviesSearchErrorState(this.error);
 }
+
+class MoviesGetSelectedMovieDataSucessState extends MoviesState {}
+
+class MoviesGetSelectedMovieDataLoadingState extends MoviesState {}
+
+class MoviesGetSelectedMovieDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetSelectedMovieDataErrorState(this.error);
+}

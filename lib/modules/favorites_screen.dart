@@ -88,7 +88,6 @@ class FavoritesScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // Spacer(),
                               Padding(
                                 padding: const EdgeInsets.only(
                                   right: 8.0,

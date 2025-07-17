@@ -305,4 +305,22 @@ class MoviesCubit extends Cubit<MoviesState> {
       emit(MoviesSearchErrorState(error.toString()));
     }
   }
+
+  Map<String, dynamic>? selectedMovie;
+
+  void getSelectedMovie({required int id}) async {
+    emit(MoviesGetSelectedMovieDataLoadingState());
+
+    try {
+      final tmdbService = TMDBService();
+      final movie = await tmdbService.getMovieById(id);
+
+      selectedMovie = movie;
+      print('Selected Movie: ${movie['title']}');
+
+      emit(MoviesGetSelectedMovieDataSucessState());
+    } catch (error) {
+      emit(MoviesGetSelectedMovieDataErrorState(error.toString()));
+    }
+  }
 }
