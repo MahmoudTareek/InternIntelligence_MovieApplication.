@@ -79,6 +79,9 @@ class MoviesScreen extends StatelessWidget {
                     onTap: (index) {
                       MoviesCubit.get(context).addToFavorites(
                         movieId: cubit.trendingMovies[index]['id'],
+                        title:
+                            cubit.trendingMovies[index]['title'] ??
+                            'Unknown Title',
                       );
                     },
                     icon: Icons.trending_up,

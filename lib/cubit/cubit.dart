@@ -200,7 +200,7 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
-  void addToFavorites({required int movieId}) {
+  void addToFavorites({required int movieId, required String title}) {
     emit(MoviesAddedToUserLoadingState());
     if (user?.id == null) {
       emit(MoviesAddedToUserErrorState('User ID is null'));
@@ -215,6 +215,15 @@ class MoviesCubit extends Cubit<MoviesState> {
         .then((value) {
           emit(MoviesAddedToUserSucessState());
           print('ADDED');
+          Fluttertoast.showToast(
+            msg: "$title Added to Favorites!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
         })
         .catchError((error) {
           emit(MoviesAddedToUserErrorState(error.toString()));
