@@ -63,7 +63,6 @@ class SreachScreen extends StatelessWidget {
               ),
               if (state is MoviesSearchLoadingState)
                 Center(child: CircularProgressIndicator(color: primaryColor)),
-              // if (state is MoviesSearchSuccessState)
               Expanded(
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -83,7 +82,7 @@ class SreachScreen extends StatelessWidget {
                                 onTap: () {
                                   navigateTo(
                                     context,
-                                    SelectedMovieScreen(movieId: movie['id']),
+                                    SelectedMovieScreen(Id: movie['id']),
                                   );
                                 },
                                 child: Container(

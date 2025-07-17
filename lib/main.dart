@@ -22,7 +22,10 @@ class MyApp extends StatelessWidget {
           (_) =>
               MoviesCubit()
                 ..fetchTrendingMovies()
-                ..fetchGenres(),
+                ..fetchGenres()
+                ..fetchMovies()
+                ..fetchTv()
+                ..fetchFavorites(),
       child: MaterialApp(
         theme: ThemeData(primarySwatch: Colors.blue),
         debugShowCheckedModeBanner: false,

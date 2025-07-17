@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:movies_application/modules/selected_movie_screen.dart';
+import 'package:movies_application/modules/selected_tv_screen.dart';
 import 'package:movies_application/shared/components.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -13,8 +14,12 @@ class FavoritesScreen extends StatelessWidget {
     return BlocConsumer<MoviesCubit, MoviesState>(
       listener: (context, state) {},
       builder: (context, state) {
-        MoviesCubit.get(context).fetchFavorites();
         var cubit = MoviesCubit.get(context);
+        // Future.microtask(() {
+        //   if (state is! MoviesGetFavoriteDataLoadingState) {
+        //     cubit.fetchFavorites();
+        //   }
+        // });
         if (cubit.favorites.isEmpty) {
           return Center(
             child: Column(
@@ -41,12 +46,21 @@ class FavoritesScreen extends StatelessWidget {
                   itemCount: cubit.favorites.length,
                   itemBuilder: (context, index) {
                     final movie = cubit.favorites[index];
+                    final favoriteItem = cubit.favoriteIds[index];
                     return GestureDetector(
                       onTap: () {
-                        navigateTo(
-                          context,
-                          SelectedMovieScreen(movieId: movie['id']),
-                        );
+                        if (favoriteItem['type'] == 'movie') {
+                          navigateTo(
+                            context,
+                            SelectedMovieScreen(Id: movie['id']),
+                          );
+                        }
+                        if (favoriteItem['type'] == 'tv') {
+                          navigateTo(
+                            context,
+                            SelectedTVScreen(Id: movie['id']),
+                          );
+                        }
                       },
                       child: Column(
                         children: [
@@ -74,16 +88,28 @@ class FavoritesScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        '${movie['title'] ?? 'Unknown Title'}',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: secondryColor,
+                                      if (favoriteItem['type'] == 'tv')
+                                        Text(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          '${movie['name'] ?? 'Unknown Title'}',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: secondryColor,
+                                          ),
                                         ),
-                                      ),
+                                      if (favoriteItem['type'] == 'movie')
+                                        Text(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          '${movie['title'] ?? 'Unknown Title'}',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: secondryColor,
+                                          ),
+                                        ),
                                       SizedBox(height: 5.0),
                                       Text(
                                         maxLines: 5,
@@ -114,9 +140,21 @@ class FavoritesScreen extends StatelessWidget {
                                         color: Colors.red,
                                       ),
                                       onPressed: () async {
-                                        MoviesCubit.get(
+                                        print(favoriteItem);
+                                        await MoviesCubit.get(
                                           context,
-                                        ).removeSelectedMovie(id: movie['id']);
+                                        ).removeSelectedMovie(
+                                          id: movie['id'],
+                                          type: favoriteItem['type'],
+                                        );
+                                        Future.delayed(
+                                          Duration(milliseconds: 100),
+                                          () {
+                                            MoviesCubit.get(
+                                              context,
+                                            ).fetchFavorites();
+                                          },
+                                        );
                                       },
                                     ),
                                   ),

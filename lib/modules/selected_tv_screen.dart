@@ -4,15 +4,15 @@ import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:movies_application/shared/components.dart';
 
-class SelectedMovieScreen extends StatelessWidget {
+class SelectedTVScreen extends StatelessWidget {
   final Id;
 
-  const SelectedMovieScreen({Key? key, required this.Id}) : super(key: key);
+  const SelectedTVScreen({Key? key, required this.Id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Future.microtask(() {
-      MoviesCubit.get(context).getSelectedMovie(id: Id);
+      MoviesCubit.get(context).getSelectedTv(id: Id);
     });
     return BlocConsumer<MoviesCubit, MoviesState>(
       listener: (context, state) {},
@@ -27,7 +27,7 @@ class SelectedMovieScreen extends StatelessWidget {
               },
             ),
             title: Text(
-              'Selected Movie',
+              'Selected TV Show',
               style: TextStyle(
                 color: secondryColor,
                 fontWeight: FontWeight.bold,
@@ -40,9 +40,9 @@ class SelectedMovieScreen extends StatelessWidget {
             builder: (context, state) {
               var cubit = MoviesCubit.get(context);
               // MoviesCubit.get(context).getSelectedMovie(id: movieId);
-              final movie = cubit.selectedMovie;
+              final tv = cubit.selectedTv;
               // print(movie);
-              if (movie == null) {
+              if (tv == null) {
                 return Center(
                   child: CircularProgressIndicator(color: primaryColor),
                 );
@@ -52,7 +52,7 @@ class SelectedMovieScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.network(
-                      'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
+                      'https://image.tmdb.org/t/p/w500${tv['poster_path']}',
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: 600,
@@ -60,7 +60,7 @@ class SelectedMovieScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        movie['title'],
+                        tv['name'],
                         style: TextStyle(
                           color: secondryColor,
                           fontSize: 24,
@@ -71,7 +71,7 @@ class SelectedMovieScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        movie['overview'],
+                        tv['overview'],
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),

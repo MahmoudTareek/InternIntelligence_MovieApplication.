@@ -58,6 +58,26 @@ class MoviesGetTrendingMoviesErrorState extends MoviesState {
   MoviesGetTrendingMoviesErrorState(this.error);
 }
 
+class MoviesGetMoviesSucessState extends MoviesState {}
+
+class MoviesGetMoviesLoadingState extends MoviesState {}
+
+class MoviesGetMoviesErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetMoviesErrorState(this.error);
+}
+
+class MoviesGetTVSucessState extends MoviesState {}
+
+class MoviesGetTVLoadingState extends MoviesState {}
+
+class MoviesGetTVErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetTVErrorState(this.error);
+}
+
 class MoviesGetGenresSucessState extends MoviesState {}
 
 class MoviesGetGenresLoadingState extends MoviesState {}
@@ -116,4 +136,14 @@ class MoviesGetSelectedMovieDataErrorState extends MoviesState {
   final String error;
 
   MoviesGetSelectedMovieDataErrorState(this.error);
+}
+
+class MoviesGetTVMovieDataSucessState extends MoviesState {}
+
+class MoviesGetTVMovieDataLoadingState extends MoviesState {}
+
+class MoviesGetTVMovieDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetTVMovieDataErrorState(this.error);
 }

@@ -186,6 +186,32 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
+  List<dynamic> movies_list = [];
+
+  void fetchMovies() async {
+    emit(MoviesGetMoviesLoadingState());
+    try {
+      final movies = movies_list = await TMDBService().getMovies();
+      movies_list = movies;
+      emit(MoviesGetMoviesSucessState());
+    } catch (error) {
+      emit(MoviesGetMoviesErrorState(error.toString()));
+    }
+  }
+
+  List<dynamic> tv_list = [];
+
+  void fetchTv() async {
+    emit(MoviesGetTVLoadingState());
+    try {
+      final series = tv_list = await TMDBService().getTv();
+      tv_list = series;
+      emit(MoviesGetTVSucessState());
+    } catch (error) {
+      emit(MoviesGetTVErrorState(error.toString()));
+    }
+  }
+
   List<dynamic> genres = [];
 
   Future<void> fetchGenres() async {
@@ -200,17 +226,24 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
-  void addToFavorites({required int movieId, required String title}) {
+  void addToFavorites({
+    required int Id,
+    required String title,
+    required String type,
+  }) {
     emit(MoviesAddedToUserLoadingState());
     if (user?.id == null) {
       emit(MoviesAddedToUserErrorState('User ID is null'));
       return;
     }
+
+    final favData = {'id': Id, 'type': type};
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(user!.id)
         .update({
-          'favorites': FieldValue.arrayUnion([movieId]),
+          'favorites': FieldValue.arrayUnion([favData]),
         })
         .then((value) {
           emit(MoviesAddedToUserSucessState());
@@ -231,15 +264,15 @@ class MoviesCubit extends Cubit<MoviesState> {
   }
 
   List<Map<String, dynamic>> favorites = [];
+  List<dynamic> favoriteIds = [];
 
-  void fetchFavorites() async {
+  Future<void> fetchFavorites() async {
     emit(MoviesGetFavoriteDataLoadingState());
 
     if (user?.id == null) {
       emit(MoviesGetFavoriteDataErrorState('User ID is null'));
       return;
     }
-
     try {
       final doc =
           await FirebaseFirestore.instance
@@ -247,16 +280,23 @@ class MoviesCubit extends Cubit<MoviesState> {
               .doc(user!.id)
               .get();
 
-      List<dynamic> favoriteIds = doc.data()?['favorites'] ?? [];
+      favoriteIds = doc.data()?['favorites'] ?? [];
 
       List<Map<String, dynamic>> favoriteMovies = [];
 
       final tmdbService = TMDBService();
 
-      for (var id in favoriteIds) {
+      for (var fav in favoriteIds) {
+        final id = fav['id'];
+        final type = fav['type'];
         try {
-          final movie = await tmdbService.getMovieById(id);
-          favoriteMovies.add(movie);
+          if (type == 'movie') {
+            final movie = await tmdbService.getMovieById(id);
+            favoriteMovies.add(movie);
+          } else if (type == 'tv') {
+            final tv = await tmdbService.getTVById(id);
+            favoriteMovies.add(tv);
+          }
         } catch (error) {
           emit(MoviesGetFavoriteDataErrorState(error.toString()));
         }
@@ -269,15 +309,18 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
-  void removeSelectedMovie({required id}) {
+  Future<void> removeSelectedMovie({required id, required type}) async {
     emit(MoviesRemoveFavoriteDataLoadingState());
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.id)
         .update({
-          'favorites': FieldValue.arrayRemove([id]),
+          'favorites': FieldValue.arrayRemove([
+            {'id': id, 'type': type},
+          ]),
         })
         .then((value) {
+          fetchFavorites();
           emit(MoviesRemoveFavoriteDataSucessState());
         })
         .catchError((error) {
@@ -321,6 +364,24 @@ class MoviesCubit extends Cubit<MoviesState> {
       emit(MoviesGetSelectedMovieDataSucessState());
     } catch (error) {
       emit(MoviesGetSelectedMovieDataErrorState(error.toString()));
+    }
+  }
+
+  Map<String, dynamic>? selectedTv;
+
+  void getSelectedTv({required int id}) async {
+    emit(MoviesGetTVMovieDataLoadingState());
+
+    try {
+      final tmdbService = TMDBService();
+      final tv = await tmdbService.getTVById(id);
+
+      selectedTv = tv;
+      print('Selected Movie: ${tv['name']}');
+
+      emit(MoviesGetTVMovieDataSucessState());
+    } catch (error) {
+      emit(MoviesGetTVMovieDataErrorState(error.toString()));
     }
   }
 }

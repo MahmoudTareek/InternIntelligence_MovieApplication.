@@ -17,6 +17,32 @@ class TMDBService {
     }
   }
 
+  Future<List<dynamic>> getMovies() async {
+    final response = await _dio.get(
+      '$baseUrl/discover/movie',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    } else {
+      throw Exception('Failed to load movies');
+    }
+  }
+
+  Future<List<dynamic>> getTv() async {
+    final response = await _dio.get(
+      '$baseUrl/discover/tv',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    } else {
+      throw Exception('Failed to load trending tv shows');
+    }
+  }
+
   Future<List<dynamic>> getMovieGenres() async {
     final response = await _dio.get(
       '$baseUrl/genre/movie/list',
@@ -40,6 +66,19 @@ class TMDBService {
       return response.data;
     } else {
       throw Exception('Failed to load movie with ID $movieId');
+    }
+  }
+
+  Future<Map<String, dynamic>> getTVById(int tvId) async {
+    final response = await _dio.get(
+      '$baseUrl/tv/$tvId',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to load TV with ID $tvId');
     }
   }
 }
