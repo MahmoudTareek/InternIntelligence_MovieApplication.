@@ -46,7 +46,9 @@ class SreachScreen extends StatelessWidget {
                     if (value.isNotEmpty) {
                       cubit.searchMovies(value);
                     }
-                    print(value);
+                    if (value.isEmpty) {
+                      cubit.searchResults.clear();
+                    }
                   },
                   validate: (value) {
                     if (value.isEmpty) {
@@ -121,20 +123,27 @@ class SreachScreen extends StatelessWidget {
                   ),
                 ),
               if (cubit.searchResults.isEmpty)
-                Column(
-                  children: [
-                    // SizedBox(height: 250),
-                    Icon(Icons.manage_search, size: 100, color: secondryColor),
-                    SizedBox(height: 20),
-                    Text(
-                      'Searching for a movie?',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.manage_search,
+                        size: 100,
                         color: secondryColor,
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 20),
+                      Text(
+                        'Searching for a movie?',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: secondryColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
             ],
           );

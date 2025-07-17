@@ -88,7 +88,7 @@ class FavoritesScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Spacer(),
+                              // Spacer(),
                               Padding(
                                 padding: const EdgeInsets.only(
                                   right: 8.0,
@@ -103,7 +103,6 @@ class FavoritesScreen extends StatelessWidget {
                                   child: IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () async {
-                                      print('DELETED');
                                       MoviesCubit.get(
                                         context,
                                       ).removeSelectedMovie(id: movie['id']);

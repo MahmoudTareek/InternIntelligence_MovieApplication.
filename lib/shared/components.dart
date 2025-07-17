@@ -109,6 +109,7 @@ Widget itemBuilder({
   required IconData favorite,
   Function? favoritePrssed,
   Map<String, dynamic> Function(int)? customItemBuilder,
+  required Function(int) onFavoriteTap,
   required Function(int) onTap,
 }) => Column(
   children: [
@@ -137,7 +138,7 @@ Widget itemBuilder({
               customItemBuilder != null ? customItemBuilder(index) : {};
           final img = itemData['imageUrl'] ?? imageUrl;
           final currentColor = itemData['color'] ?? Colors.white;
-          return InkWell(
+          return GestureDetector(
             onTap: () {
               onTap(index);
             },
@@ -168,7 +169,8 @@ Widget itemBuilder({
                 IconButton(
                   onPressed: () {
                     MoviesCubit.get(context).changeFavorite();
-                    onTap(index);
+                    // onTap(index);
+                    onFavoriteTap.call(index);
                   },
                   icon:
                       isFavorite

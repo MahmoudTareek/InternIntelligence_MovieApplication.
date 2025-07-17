@@ -75,14 +75,17 @@ class MoviesScreen extends StatelessWidget {
                     ],
                   ),
                   itemBuilder(
-                    favorite: Icons.favorite,
-                    onTap: (index) {
+                    onFavoriteTap: (index) {
                       MoviesCubit.get(context).addToFavorites(
                         movieId: cubit.trendingMovies[index]['id'],
                         title:
                             cubit.trendingMovies[index]['title'] ??
                             'Unknown Title',
                       );
+                    },
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      print('Trending Movies Clicked: $index');
                     },
                     icon: Icons.trending_up,
                     text: 'Trending',
@@ -106,6 +109,7 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    onFavoriteTap: (index) {},
                     color: color,
                     favorite: Icons.favorite,
                     onTap: (index) {
@@ -119,6 +123,8 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    onFavoriteTap: (index) {},
+
                     color: color,
 
                     favorite: Icons.favorite,
@@ -133,6 +139,8 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    onFavoriteTap: (index) {},
+
                     color: color,
 
                     favorite: Icons.favorite,
