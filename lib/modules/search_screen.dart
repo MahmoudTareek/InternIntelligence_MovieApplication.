@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
+import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/shared/components.dart';
 
 class SreachScreen extends StatelessWidget {
@@ -62,23 +63,30 @@ class SreachScreen extends StatelessWidget {
               ),
               if (state is MoviesSearchLoadingState)
                 Center(child: CircularProgressIndicator(color: primaryColor)),
-              if (state is MoviesSearchSuccessState)
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.65,
-                    ),
-                    itemCount: cubit.searchResults.length,
-                    itemBuilder: (context, index) {
-                      final movie = cubit.searchResults[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
+              // if (state is MoviesSearchSuccessState)
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.65,
+                  ),
+                  itemCount: cubit.searchResults.length,
+                  itemBuilder: (context, index) {
+                    final movie = cubit.searchResults[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  navigateTo(
+                                    context,
+                                    SelectedMovieScreen(movieId: movie['id']),
+                                  );
+                                },
+                                child: Container(
                                   width: 185,
                                   child: Column(
                                     children: [
@@ -114,14 +122,15 @@ class SreachScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
+              ),
               if (cubit.searchResults.isEmpty)
                 Expanded(
                   child: Column(
