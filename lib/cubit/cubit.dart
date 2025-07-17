@@ -29,7 +29,11 @@ class MoviesCubit extends Cubit<MoviesState> {
 
   List<String> titles = ['Home', 'Favorites', 'Profile'];
 
-  List<Widget> screens = [MoviesScreen(), FavoritesScreen(), ProfileScreen()];
+  List<Widget> get screens => [
+    MoviesScreen(),
+    FavoritesScreen(),
+    ProfileScreen(),
+  ];
 
   void changeBottomNavBar(int index) {
     currentIndex = index;
@@ -66,8 +70,6 @@ class MoviesCubit extends Cubit<MoviesState> {
     emit(MoviesChangePasswordVisibilityState());
   }
 
-  String? userID;
-
   void userLogin({
     required String email,
     required String password,
@@ -78,9 +80,9 @@ class MoviesCubit extends Cubit<MoviesState> {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
           emit(MoviesLoginLoadingState());
-          userID = value.user!.uid;
-          print('User ID: $userID');
-          getUerData(userID, context);
+          final uid = value.user!.uid;
+          print('User ID: $uid');
+          getUserData(uid, context);
         })
         .catchError((error) {
           emit(MoviesLoginErrorState(error.toString()));
@@ -105,7 +107,6 @@ class MoviesCubit extends Cubit<MoviesState> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()),
           );
-          userID = null;
           currentIndex = 0;
         })
         .catchError((error) {
@@ -116,7 +117,7 @@ class MoviesCubit extends Cubit<MoviesState> {
   String? userName;
   UserModel? user;
 
-  void getUerData(id, context) {
+  void getUserData(id, context) {
     emit(MoviesUserDataLoadingState());
     FirebaseFirestore.instance
         .collection('users')
@@ -124,7 +125,7 @@ class MoviesCubit extends Cubit<MoviesState> {
         .get()
         .then((value) {
           user = UserModel.fromJson(value.data()!);
-          print(user!.username.toString());
+          print('Fetched User: ${user!.username}, ID: ${user!.id}');
           emit(MoviesUserDataSucessState());
           Navigator.pushReplacement(
             context,
@@ -196,5 +197,82 @@ class MoviesCubit extends Cubit<MoviesState> {
     } catch (error) {
       emit(MoviesGetGenresErrorState(error.toString()));
     }
+  }
+
+  void addToFavorites({required int movieId}) {
+    emit(MoviesAddedToUserLoadingState());
+    if (user?.id == null) {
+      emit(MoviesAddedToUserErrorState('User ID is null'));
+      return;
+    }
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.id)
+        .update({
+          'favorites': FieldValue.arrayUnion([movieId]),
+          'numOfFavorites': FieldValue.increment(1),
+        })
+        .then((value) {
+          emit(MoviesAddedToUserSucessState());
+          print('ADDED');
+        })
+        .catchError((error) {
+          emit(MoviesAddedToUserErrorState(error.toString()));
+        });
+  }
+
+  List<Map<String, dynamic>> favorites = [];
+
+  void fetchFavorites() async {
+    emit(MoviesGetFavoriteDataLoadingState());
+
+    if (user?.id == null) {
+      emit(MoviesGetFavoriteDataErrorState('User ID is null'));
+      return;
+    }
+
+    try {
+      final doc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user!.id)
+              .get();
+
+      List<dynamic> favoriteIds = doc.data()?['favorites'] ?? [];
+
+      List<Map<String, dynamic>> favoriteMovies = [];
+
+      final tmdbService = TMDBService();
+
+      for (var id in favoriteIds) {
+        try {
+          final movie = await tmdbService.getMovieById(id);
+          favoriteMovies.add(movie);
+        } catch (error) {
+          emit(MoviesGetFavoriteDataErrorState(error.toString()));
+        }
+      }
+
+      favorites = favoriteMovies;
+      emit(MoviesGetFavoriteDataSucessState());
+    } catch (error) {
+      emit(MoviesGetFavoriteDataErrorState(error.toString()));
+    }
+  }
+
+  void removeSelectedMovie({required id}) {
+    emit(MoviesRemoveFavoriteDataLoadingState());
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.id)
+        .update({
+          'favorites': FieldValue.arrayRemove([id]),
+        })
+        .then((value) {
+          emit(MoviesRemoveFavoriteDataSucessState());
+        })
+        .catchError((error) {
+          emit(MoviesRemoveFavoriteDataErrorState(error.toString()));
+        });
   }
 }

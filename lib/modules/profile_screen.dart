@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                         child: defaultButton(
                           function: () {
                             MoviesCubit.get(context).updateUserData(
-                              id: cubit.userID.toString(),
+                              id: cubit.user?.id.toString(),
                               username: userNameController.text,
                               email: emailController.text,
                             );

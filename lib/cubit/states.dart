@@ -67,3 +67,33 @@ class MoviesGetGenresErrorState extends MoviesState {
 
   MoviesGetGenresErrorState(this.error);
 }
+
+class MoviesAddedToUserSucessState extends MoviesState {}
+
+class MoviesAddedToUserLoadingState extends MoviesState {}
+
+class MoviesAddedToUserErrorState extends MoviesState {
+  final String error;
+
+  MoviesAddedToUserErrorState(this.error);
+}
+
+class MoviesGetFavoriteDataSucessState extends MoviesState {}
+
+class MoviesGetFavoriteDataLoadingState extends MoviesState {}
+
+class MoviesGetFavoriteDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesGetFavoriteDataErrorState(this.error);
+}
+
+class MoviesRemoveFavoriteDataSucessState extends MoviesState {}
+
+class MoviesRemoveFavoriteDataLoadingState extends MoviesState {}
+
+class MoviesRemoveFavoriteDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesRemoveFavoriteDataErrorState(this.error);
+}

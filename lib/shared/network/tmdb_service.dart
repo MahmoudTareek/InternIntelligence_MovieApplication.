@@ -29,4 +29,17 @@ class TMDBService {
       throw Exception('Failed to load movie genres');
     }
   }
+
+  Future<Map<String, dynamic>> getMovieById(int movieId) async {
+    final response = await _dio.get(
+      '$baseUrl/movie/$movieId',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to load movie with ID $movieId');
+    }
+  }
 }

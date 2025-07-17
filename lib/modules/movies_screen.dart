@@ -9,165 +9,135 @@ class MoviesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) =>
-              MoviesCubit()
-                ..fetchTrendingMovies()
-                ..fetchGenres(),
-      child: BlocConsumer<MoviesCubit, MoviesState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var cubit = MoviesCubit.get(context);
-          if (cubit.trendingMovies.isEmpty) {
-            return Center(
-              child: CircularProgressIndicator(color: primaryColor),
-            );
-          }
-          if (cubit.genres.isEmpty) {
-            return Center(
-              child: CircularProgressIndicator(color: primaryColor),
-            );
-          }
-          return Scaffold(
-            backgroundColor: Colors.black,
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.list, color: Colors.white, size: 30),
-                            SizedBox(width: 10),
-                            Text(
-                              'Movies Categories',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+    return BlocConsumer<MoviesCubit, MoviesState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = MoviesCubit.get(context);
+        if (cubit.genres.isEmpty || cubit.trendingMovies.isEmpty) {
+          return Center(child: CircularProgressIndicator(color: primaryColor));
+        }
+        return Scaffold(
+          backgroundColor: Colors.black,
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.list, color: Colors.white, size: 30),
+                          SizedBox(width: 10),
+                          Text(
+                            'Movies Categories',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          height: 54,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              final genre = cubit.genres[index];
-                              return Column(
-                                children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: primaryColor,
-                                    ),
-                                    onPressed: () {
-                                      print(
-                                        'Category Clicked: ${genre['name']}',
-                                      );
-                                    },
-                                    child: Text(
-                                      '${genre['name']}',
-                                      style: TextStyle(color: secondryColor),
-                                    ),
-                                  ),
-                                  // Container(
-                                  //   padding: EdgeInsets.all(2.0),
-                                  //   decoration: BoxDecoration(
-                                  //     color: primaryColor,
-                                  //     shape: BoxShape.circle,
-                                  //   ),
-                                  //   child: CircleAvatar(
-                                  //     radius: 50,
-                                  //     backgroundImage: NetworkImage(
-                                  //       'https://painrehabproducts.com/wp-content/uploads/2014/10/facebook-default-no-profile-pic.jpg',
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  SizedBox(height: 5),
-                                  // Text(
-                                  //   '${genre['name']}',
-                                  //   style: TextStyle(color: Colors.white),
-                                  // ),
-                                ],
-                              );
-                            },
-                            separatorBuilder:
-                                (context, index) => SizedBox(width: 10),
-                            itemCount: cubit.genres.length,
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 54,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final genre = cubit.genres[index];
+                            return Column(
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: primaryColor,
+                                  ),
+                                  onPressed: () {
+                                    print('Category Clicked: ${genre['name']}');
+                                  },
+                                  child: Text(
+                                    '${genre['name']}',
+                                    style: TextStyle(color: secondryColor),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                              ],
+                            );
+                          },
+                          separatorBuilder:
+                              (context, index) => SizedBox(width: 10),
+                          itemCount: cubit.genres.length,
                         ),
-                      ],
-                    ),
-                    itemBuilder(
-                      favorite: Icons.favorite,
-                      onTap: (index) {
-                        print(
-                          'Tapped: ${cubit.trendingMovies[index]['title']}',
-                        );
-                      },
-                      icon: Icons.trending_up,
-                      text: 'Trending',
-                      imageUrl: '',
-                      customItemBuilder: (index) {
-                        final movie = cubit.trendingMovies[index];
-                        return {
-                          'imageUrl':
-                              movie['poster_path'] != null
-                                  ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
-                                  : 'https://via.placeholder.com/150',
-                        };
-                      },
-                      itemCount: cubit.trendingMovies.length,
-                    ),
-                    SizedBox(height: 20),
-                    itemBuilder(
-                      favorite: Icons.favorite,
-                      onTap: (index) {
-                        print('Top Rated Movies Clicked: $index');
-                      },
-                      icon: Icons.replay,
-                      text: 'Continues Watching',
-                      imageUrl:
-                          'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
-                      itemCount: 10,
-                    ),
-                    SizedBox(height: 20),
-                    itemBuilder(
-                      favorite: Icons.favorite,
-                      onTap: (index) {
-                        print('Movies Clicked: $index');
-                      },
-                      icon: Icons.movie,
-                      text: 'Movies',
-                      imageUrl:
-                          'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
-                      itemCount: 10,
-                    ),
-                    SizedBox(height: 20),
-                    itemBuilder(
-                      favorite: Icons.favorite,
-                      onTap: (index) {
-                        print('Series Clicked: $index');
-                      },
-                      icon: Icons.tv,
-                      text: 'Series',
-                      imageUrl:
-                          'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
-                      itemCount: 10,
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  itemBuilder(
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      print('Tapped: ${cubit.trendingMovies[index]['title']}');
+                      print('Tapped: ${cubit.trendingMovies[index]['id']}');
+                      print('uID : ${cubit.user?.id.toString()}');
+                      MoviesCubit.get(context).addToFavorites(
+                        movieId: cubit.trendingMovies[index]['id'],
+                      );
+                    },
+                    icon: Icons.trending_up,
+                    text: 'Trending',
+                    imageUrl: '',
+                    customItemBuilder: (index) {
+                      final movie = cubit.trendingMovies[index];
+                      return {
+                        'imageUrl':
+                            movie['poster_path'] != null
+                                ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
+                                : 'https://via.placeholder.com/150',
+                      };
+                    },
+                    itemCount: cubit.trendingMovies.length,
+                  ),
+                  SizedBox(height: 20),
+                  itemBuilder(
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      print('Top Rated Movies Clicked: $index');
+                    },
+                    icon: Icons.replay,
+                    text: 'Continues Watching',
+                    imageUrl:
+                        'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
+                    itemCount: 10,
+                  ),
+                  SizedBox(height: 20),
+                  itemBuilder(
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      print('Movies Clicked: $index');
+                    },
+                    icon: Icons.movie,
+                    text: 'Movies',
+                    imageUrl:
+                        'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
+                    itemCount: 10,
+                  ),
+                  SizedBox(height: 20),
+                  itemBuilder(
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      print('Series Clicked: $index');
+                    },
+                    icon: Icons.tv,
+                    text: 'Series',
+                    imageUrl:
+                        'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
+                    itemCount: 10,
+                  ),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

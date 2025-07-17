@@ -146,7 +146,6 @@ Widget itemBuilder({
                   width: 150.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-
                     image: DecorationImage(
                       image: NetworkImage(img),
                       fit: BoxFit.cover,
@@ -156,6 +155,7 @@ Widget itemBuilder({
                 IconButton(
                   onPressed: () {
                     MoviesCubit.get(context).changeFavorite();
+                    onTap(index);
                   },
                   icon: Icon(
                     Icons.favorite,
