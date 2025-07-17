@@ -15,11 +15,6 @@ class FavoritesScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = MoviesCubit.get(context);
-        // Future.microtask(() {
-        //   if (state is! MoviesGetFavoriteDataLoadingState) {
-        //     cubit.fetchFavorites();
-        //   }
-        // });
         if (cubit.favorites.isEmpty) {
           return Center(
             child: Column(
