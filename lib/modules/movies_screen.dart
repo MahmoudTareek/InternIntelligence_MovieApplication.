@@ -13,9 +13,11 @@ class MoviesScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = MoviesCubit.get(context);
+        Color color = Colors.white;
         if (cubit.genres.isEmpty || cubit.trendingMovies.isEmpty) {
           return Center(child: CircularProgressIndicator(color: primaryColor));
         }
+        MoviesCubit.get(context).fetchFavorites();
         return Scaffold(
           backgroundColor: Colors.black,
           body: Padding(
@@ -75,9 +77,6 @@ class MoviesScreen extends StatelessWidget {
                   itemBuilder(
                     favorite: Icons.favorite,
                     onTap: (index) {
-                      print('Tapped: ${cubit.trendingMovies[index]['title']}');
-                      print('Tapped: ${cubit.trendingMovies[index]['id']}');
-                      print('uID : ${cubit.user?.id.toString()}');
                       MoviesCubit.get(context).addToFavorites(
                         movieId: cubit.trendingMovies[index]['id'],
                       );
@@ -87,17 +86,24 @@ class MoviesScreen extends StatelessWidget {
                     imageUrl: '',
                     customItemBuilder: (index) {
                       final movie = cubit.trendingMovies[index];
+                      // final movie = cubit.favorites[index];
+                      bool isFavorite = cubit.favorites.any(
+                        (fav) => fav['id'] == movie['id'],
+                      );
                       return {
                         'imageUrl':
                             movie['poster_path'] != null
                                 ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
                                 : 'https://via.placeholder.com/150',
+                        'color': isFavorite ? primaryColor : secondryColor,
                       };
                     },
+
                     itemCount: cubit.trendingMovies.length,
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    color: color,
                     favorite: Icons.favorite,
                     onTap: (index) {
                       print('Top Rated Movies Clicked: $index');
@@ -110,6 +116,8 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    color: color,
+
                     favorite: Icons.favorite,
                     onTap: (index) {
                       print('Movies Clicked: $index');
@@ -122,6 +130,8 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
+                    color: color,
+
                     favorite: Icons.favorite,
                     onTap: (index) {
                       print('Series Clicked: $index');

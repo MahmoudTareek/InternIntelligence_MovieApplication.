@@ -58,7 +58,6 @@ class MoviesCubit extends Cubit<MoviesState> {
 
   void changeFavorite() {
     isFavorite = !isFavorite;
-    print('object');
     emit(MoviesChangeFavoriteState());
   }
 
@@ -212,7 +211,6 @@ class MoviesCubit extends Cubit<MoviesState> {
         .doc(user!.id)
         .update({
           'favorites': FieldValue.arrayUnion([movieId]),
-          'numOfFavorites': FieldValue.increment(1),
         })
         .then((value) {
           emit(MoviesAddedToUserSucessState());

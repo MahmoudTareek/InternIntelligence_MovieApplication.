@@ -105,6 +105,7 @@ Widget itemBuilder({
   required String text,
   required String imageUrl,
   required int itemCount,
+  Color? color,
   required IconData favorite,
   Function? favoritePrssed,
   Map<String, dynamic> Function(int)? customItemBuilder,
@@ -135,6 +136,7 @@ Widget itemBuilder({
           final itemData =
               customItemBuilder != null ? customItemBuilder(index) : {};
           final img = itemData['imageUrl'] ?? imageUrl;
+          final currentColor = itemData['color'] ?? Colors.white;
           return InkWell(
             onTap: () {
               onTap(index);
@@ -152,27 +154,27 @@ Widget itemBuilder({
                     ),
                   ),
                 ),
+                // IconButton(
+                //   onPressed: () {
+                //     MoviesCubit.get(context).changeFavorite();
+                //     onTap(index);
+                //   },
+                //   icon: Icon(
+                //     Icons.favorite,
+                //     color: isFavorite ? primaryColor : secondryColor,
+                //     size: 30,
+                //   ),
+                // ),
                 IconButton(
                   onPressed: () {
                     MoviesCubit.get(context).changeFavorite();
                     onTap(index);
                   },
-                  icon: Icon(
-                    Icons.favorite,
-                    color: isFavorite ? primaryColor : secondryColor,
-                    size: 30,
-                  ),
+                  icon:
+                      isFavorite
+                          ? Icon(favorite, color: currentColor, size: 40.0)
+                          : Icon(favorite, color: currentColor, size: 40.0),
                 ),
-                // IconButton(
-                //   onPressed: () {
-                //     isFavorite = !isFavorite;
-                //     print(isFavorite);
-                //   },
-                //   icon:
-                //       isFavorite
-                //           ? Icon(favorite, color: primaryColor, size: 40.0)
-                //           : Icon(favorite, color: secondryColor, size: 40.0),
-                // ),
               ],
             ),
           );
