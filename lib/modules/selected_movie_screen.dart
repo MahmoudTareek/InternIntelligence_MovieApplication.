@@ -18,30 +18,31 @@ class SelectedMovieScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.black,
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: secondryColor),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            title: Text(
-              'Selected Movie',
-              style: TextStyle(
-                color: secondryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black45,
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: secondryColor),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
             ),
-            backgroundColor: Colors.black,
           ),
+          backgroundColor: Colors.transparent,
           body: BlocBuilder<MoviesCubit, MoviesState>(
             builder: (context, state) {
               var cubit = MoviesCubit.get(context);
-              // MoviesCubit.get(context).getSelectedMovie(id: movieId);
               final movie = cubit.selectedMovie;
-              // print(movie);
               if (movie == null) {
                 return Center(
                   child: CircularProgressIndicator(color: primaryColor),
@@ -51,25 +52,95 @@ class SelectedMovieScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(
-                      'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 600,
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Image.network(
+                          'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 600,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 600,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [Colors.black26, Colors.transparent],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        movie['title'],
-                        style: TextStyle(
-                          color: secondryColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          movie['title'],
+                          style: TextStyle(
+                            color: secondryColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.movie_creation_outlined,
+                                color: secondryColor,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Category: ${movie['genres'][0]['name']}, ${movie['genres'][1]['name']}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Icon(Icons.language, color: secondryColor),
+                              SizedBox(width: 5),
+                              Text(
+                                'Language: ${movie['spoken_languages'][0]['name']}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Icon(Icons.star_rate, color: Colors.yellow[700]),
+                              SizedBox(width: 5),
+                              Text(
+                                'Rating: ${movie['vote_average'].toStringAsFixed(1)}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         movie['overview'],
                         style: TextStyle(color: Colors.white, fontSize: 16),
