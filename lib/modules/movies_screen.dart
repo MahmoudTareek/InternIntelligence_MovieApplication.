@@ -15,6 +15,7 @@ class MoviesScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = MoviesCubit.get(context);
+        // var selectedGenre = null;
         Color color = Colors.white;
         if (cubit.genres.isEmpty || cubit.trendingMovies.isEmpty) {
           return Center(child: CircularProgressIndicator(color: primaryColor));
@@ -34,10 +35,10 @@ class MoviesScreen extends StatelessWidget {
                           Icon(Icons.list, color: Colors.white, size: 30),
                           SizedBox(width: 10),
                           Text(
-                            'Movies Categories',
+                            'Categories',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 24,
+                              fontSize: 28.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -116,17 +117,42 @@ class MoviesScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
-                    onFavoriteTap: (index) {},
-                    color: color,
+                    onFavoriteTap: (index) {
+                      MoviesCubit.get(context).addToFavorites(
+                        Id: cubit.topRatedMovies[index]['id'],
+                        title:
+                            cubit.topRatedMovies[index]['title'] ??
+                            'Unknown Title',
+                        type: 'movie',
+                      );
+                    },
                     favorite: Icons.favorite,
                     onTap: (index) {
-                      print('Movies Clicked: $index');
+                      navigateTo(
+                        context,
+                        SelectedMovieScreen(
+                          Id: cubit.topRatedMovies[index]['id'],
+                        ),
+                      );
                     },
-                    icon: Icons.play_circle_fill,
-                    text: 'Continue Watching',
-                    imageUrl:
-                        'https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_.jpg',
-                    itemCount: 10,
+                    icon: Icons.star,
+                    text: 'Top Rated',
+                    imageUrl: '',
+                    customItemBuilder: (index) {
+                      final movie = cubit.topRatedMovies[index];
+                      // final movie = cubit.favorites[index];
+                      bool isFavorite = cubit.favorites.any(
+                        (fav) => fav['id'] == movie['id'],
+                      );
+                      return {
+                        'imageUrl':
+                            movie['poster_path'] != null
+                                ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
+                                : 'https://via.placeholder.com/150',
+                        'color': isFavorite ? primaryColor : secondryColor,
+                      };
+                    },
+                    itemCount: cubit.topRatedMovies.length,
                   ),
                   SizedBox(height: 20),
                   itemBuilder(
@@ -200,6 +226,44 @@ class MoviesScreen extends StatelessWidget {
                       };
                     },
                     itemCount: cubit.tv_list.length,
+                  ),
+                  SizedBox(height: 20),
+                  itemBuilder(
+                    onFavoriteTap: (index) {
+                      MoviesCubit.get(context).addToFavorites(
+                        Id: cubit.upComingMovies[index]['id'],
+                        title:
+                            cubit.upComingMovies[index]['title'] ??
+                            'Unknown Title',
+                        type: 'movie',
+                      );
+                    },
+                    favorite: Icons.favorite,
+                    onTap: (index) {
+                      navigateTo(
+                        context,
+                        SelectedMovieScreen(
+                          Id: cubit.upComingMovies[index]['id'],
+                        ),
+                      );
+                    },
+                    icon: Icons.update,
+                    text: 'Upcoming',
+                    imageUrl: '',
+                    customItemBuilder: (index) {
+                      final movie = cubit.upComingMovies[index];
+                      bool isFavorite = cubit.favorites.any(
+                        (fav) => fav['id'] == movie['id'],
+                      );
+                      return {
+                        'imageUrl':
+                            movie['poster_path'] != null
+                                ? 'https://image.tmdb.org/t/p/w500${movie['poster_path']}'
+                                : 'https://via.placeholder.com/150',
+                        'color': isFavorite ? primaryColor : secondryColor,
+                      };
+                    },
+                    itemCount: cubit.upComingMovies.length,
                   ),
                 ],
               ),

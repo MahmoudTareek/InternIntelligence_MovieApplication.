@@ -83,8 +83,6 @@ class SreachScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              // if (state is MoviesSearchLoadingState)
-              //   Center(child: CircularProgressIndicator(color: primaryColor)),
               if (cubit.searchResults.isNotEmpty)
                 Expanded(
                   child: GridView.builder(

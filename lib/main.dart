@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
       create:
           (_) =>
               MoviesCubit()
-                ..fetchTrendingMovies()
                 ..fetchGenres()
+                ..fetchTrendingMovies()
+                ..fetchTopRatedMovies()
+                ..fetchUpcomingMovies()
                 ..fetchMovies()
                 ..fetchTv()
                 ..fetchFavorites(),

@@ -147,3 +147,23 @@ class MoviesGetTVMovieDataErrorState extends MoviesState {
 
   MoviesGetTVMovieDataErrorState(this.error);
 }
+
+class MoviesTopRatedMovieDataSucessState extends MoviesState {}
+
+class MoviesTopRatedMovieDataLoadingState extends MoviesState {}
+
+class MoviesTopRatedMovieDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesTopRatedMovieDataErrorState(this.error);
+}
+
+class MoviesUpcomingMovieDataSucessState extends MoviesState {}
+
+class MoviesUpcomingMovieDataLoadingState extends MoviesState {}
+
+class MoviesUpcomingMovieDataErrorState extends MoviesState {
+  final String error;
+
+  MoviesUpcomingMovieDataErrorState(this.error);
+}

@@ -186,6 +186,32 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
+  List<dynamic> topRatedMovies = [];
+
+  void fetchTopRatedMovies() async {
+    emit(MoviesTopRatedMovieDataLoadingState());
+    try {
+      final topRated = topRatedMovies = await TMDBService().getTopRatedMovies();
+      topRatedMovies = topRated;
+      emit(MoviesTopRatedMovieDataSucessState());
+    } catch (error) {
+      emit(MoviesTopRatedMovieDataErrorState(error.toString()));
+    }
+  }
+
+  List<dynamic> upComingMovies = [];
+
+  void fetchUpcomingMovies() async {
+    emit(MoviesTopRatedMovieDataLoadingState());
+    try {
+      final uoComing = upComingMovies = await TMDBService().getUpcomingMovies();
+      upComingMovies = uoComing;
+      emit(MoviesTopRatedMovieDataSucessState());
+    } catch (error) {
+      emit(MoviesTopRatedMovieDataErrorState(error.toString()));
+    }
+  }
+
   List<dynamic> movies_list = [];
 
   void fetchMovies() async {

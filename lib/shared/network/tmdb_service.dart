@@ -17,6 +17,32 @@ class TMDBService {
     }
   }
 
+  Future<List<dynamic>> getTopRatedMovies() async {
+    final response = await _dio.get(
+      '$baseUrl/movie/top_rated',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    } else {
+      throw Exception('Failed to load top rated movies');
+    }
+  }
+
+  Future<List<dynamic>> getUpcomingMovies() async {
+    final response = await _dio.get(
+      '$baseUrl/movie/upcoming',
+      queryParameters: {'api_key': apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    } else {
+      throw Exception('Failed to load upcoming movies');
+    }
+  }
+
   Future<List<dynamic>> getMovies() async {
     final response = await _dio.get(
       '$baseUrl/discover/movie',
