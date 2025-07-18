@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'endpoints.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final apiKey = dotenv.env['TMDB_API_KEY'];
 
 class TMDBService {
   final Dio _dio = Dio();
@@ -85,7 +88,7 @@ class TMDBService {
   Future<List<dynamic>> getMoviesByGenre(int genreId) async {
     final response = await _dio.get(
       '$baseUrl/discover/movie',
-      queryParameters: {'api_key': 'YOUR_API_KEY', 'with_genres': genreId},
+      queryParameters: {'api_key': apiKey, 'with_genres': genreId},
     );
     if (response.statusCode == 200) {
       return response.data;
