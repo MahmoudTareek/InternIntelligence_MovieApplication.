@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
+import 'package:movies_application/modules/GenreMoviesScreen.dart';
 import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/modules/selected_tv_screen.dart';
 import 'package:movies_application/shared/components.dart';
@@ -58,8 +59,17 @@ class MoviesScreen extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: primaryColor,
                                   ),
-                                  onPressed: () {
-                                    print('Category Clicked: ${genre['name']}');
+                                  onPressed: () async {
+                                    // await MoviesCubit.get(
+                                    //   context,
+                                    // ).getMoviesByGenre(genre['id']);
+                                    // navigateTo(
+                                    //   context,
+                                    //   GenreMoviesScreen(
+                                    //     genreMovies:
+                                    //         genre['name'] ?? 'Unknown Genre',
+                                    //   ),
+                                    // );
                                   },
                                   child: Text(
                                     '${genre['name']}',

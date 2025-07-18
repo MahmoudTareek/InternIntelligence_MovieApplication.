@@ -82,6 +82,18 @@ class TMDBService {
     }
   }
 
+  Future<List<dynamic>> getMoviesByGenre(int genreId) async {
+    final response = await _dio.get(
+      '$baseUrl/discover/movie',
+      queryParameters: {'api_key': 'YOUR_API_KEY', 'with_genres': genreId},
+    );
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to get movie genres');
+    }
+  }
+
   Future<Map<String, dynamic>> getMovieById(int movieId) async {
     final response = await _dio.get(
       '$baseUrl/movie/$movieId',

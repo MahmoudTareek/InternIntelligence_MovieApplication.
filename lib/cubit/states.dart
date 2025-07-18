@@ -167,3 +167,12 @@ class MoviesUpcomingMovieDataErrorState extends MoviesState {
 
   MoviesUpcomingMovieDataErrorState(this.error);
 }
+
+class MoviesByGenreLoadingState extends MoviesState {}
+
+class MoviesByGenreSuccessState extends MoviesState {}
+
+class MoviesByGenreErrorState extends MoviesState {
+  final String error;
+  MoviesByGenreErrorState(this.error);
+}

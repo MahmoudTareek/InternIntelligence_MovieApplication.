@@ -410,4 +410,19 @@ class MoviesCubit extends Cubit<MoviesState> {
       emit(MoviesGetTVMovieDataErrorState(error.toString()));
     }
   }
+
+  List<dynamic>? genreMovies;
+
+  Future<void> getMoviesByGenre(int genreId) async {
+    emit(MoviesByGenreLoadingState());
+    try {
+      final tmdbService = TMDBService();
+      final selectedGenre = await tmdbService.getMoviesByGenre(genreId);
+      print("HEEEEEEERE");
+      genreMovies = selectedGenre;
+      emit(MoviesByGenreSuccessState());
+    } catch (error) {
+      emit(MoviesByGenreErrorState(error.toString()));
+    }
+  }
 }
