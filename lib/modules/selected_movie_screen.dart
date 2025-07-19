@@ -196,14 +196,12 @@ class SelectedMovieScreen extends StatelessWidget {
                       children: [
                         Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0, top: 10.0),
                           child: Container(
                             width: 150.0,
                             child: defaultButton(
                               function: () {
-                                print("object1");
                                 if (reviewController.text.isNotEmpty) {
-                                  print("object3");
                                   cubit.addUserReveiw(
                                     movieID: movie['id'].toString(),
                                     reveiw: reviewController.text,
@@ -226,7 +224,7 @@ class SelectedMovieScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
-                              'Reviews',
+                              'Reviews:',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -234,46 +232,37 @@ class SelectedMovieScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                  right: 8.0,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 20.0),
-                                    IgnorePointer(
-                                      child: TextFormField(
-                                        initialValue:
-                                            cubit.allReviews[index]['review'],
-                                        style: TextStyle(color: Colors.white),
-                                        decoration: InputDecoration(
-                                          labelText:
-                                              cubit
-                                                  .allReviews[index]['username'] ??
-                                              'Anonymous',
-                                          labelStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.transparent,
-                                          border: OutlineInputBorder(),
+                          for (int i = 0; i < cubit.allReviews.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 20.0),
+                                  IgnorePointer(
+                                    child: TextFormField(
+                                      initialValue:
+                                          cubit.allReviews[i]['review'],
+                                      style: TextStyle(color: Colors.white),
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            cubit.allReviews[i]['username'] ??
+                                            'Anonymous',
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey[400],
                                         ),
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        border: OutlineInputBorder(),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (context, index) => SizedBox(height: 5.0),
-                            itemCount: cubit.allReviews.length,
-                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
                         ],
                       ),
                   ],
