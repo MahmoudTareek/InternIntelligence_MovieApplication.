@@ -14,7 +14,6 @@ class SelectedMovieScreen extends StatelessWidget {
     Future.microtask(() {
       MoviesCubit.get(context).getSelectedMovie(id: Id);
     });
-    // MoviesCubit.get(context).getUserReveiw(movieID: Id.toString());
     var cubit = MoviesCubit.get(context);
     var reviewController = TextEditingController();
     return BlocConsumer<MoviesCubit, MoviesState>(
@@ -65,7 +64,6 @@ class SelectedMovieScreen extends StatelessWidget {
                           width: double.infinity,
                           height: 600,
                         ),
-
                         Container(
                           width: double.infinity,
                           height: 600,
@@ -77,29 +75,6 @@ class SelectedMovieScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Positioned(
-                        //   bottom: -20.0,
-                        //   child: Container(
-                        //     width: 150.0,
-                        //     decoration: BoxDecoration(
-                        //       border: Border.all(
-                        //         color: secondryColor,
-                        //         width: 2,
-                        //       ),
-                        //       borderRadius: BorderRadius.circular(50),
-                        //     ),
-                        //     child: defaultButton(
-                        //       function: () {
-                        //         print('${movie}');
-                        //       },
-                        //       text: 'Trailer',
-                        //       fontSize: 18.0,
-                        //       fontWeight: FontWeight.bold,
-                        //       radius: 50,
-                        //       background: primaryColor,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     Padding(
@@ -128,7 +103,13 @@ class SelectedMovieScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                'Category: ${movie['genres'][0]['name']}, ${movie['genres'][1]['name']}',
+                                'Category: ' +
+                                    (movie['genres'].length > 0
+                                        ? movie['genres'][0]['name']
+                                        : 'N/A') +
+                                    (movie['genres'].length > 1
+                                        ? ', ${movie['genres'][1]['name']}'
+                                        : ''),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -142,7 +123,7 @@ class SelectedMovieScreen extends StatelessWidget {
                               Icon(Icons.language, color: secondryColor),
                               SizedBox(width: 5),
                               Text(
-                                'Language: ${movie['spoken_languages'][0]['name']}',
+                                'Language: ${movie['spoken_languages'].isNotEmpty ? movie['spoken_languages'][0]['name'] : 'Unknown'}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -207,9 +188,17 @@ class SelectedMovieScreen extends StatelessWidget {
                                     reveiw: reviewController.text,
                                     username: cubit.user?.username.toString(),
                                   );
+                                  Future.delayed(
+                                    Duration(milliseconds: 100),
+                                    () {
+                                      MoviesCubit.get(context).getUserReveiw(
+                                        movieID: movie['id'].toString(),
+                                      );
+                                    },
+                                  );
                                 }
                               },
-                              text: 'Send Review',
+                              text: 'Add a Review',
                               background: primaryColor,
                               radius: 50.0,
                             ),

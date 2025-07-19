@@ -388,8 +388,6 @@ class MoviesCubit extends Cubit<MoviesState> {
 
       selectedMovie = movie;
       print('Selected Movie: ${movie['title']}');
-      getUserReveiw(movieID: id.toString());
-
       emit(MoviesGetSelectedMovieDataSucessState());
     } catch (error) {
       emit(MoviesGetSelectedMovieDataErrorState(error.toString()));
@@ -407,7 +405,6 @@ class MoviesCubit extends Cubit<MoviesState> {
 
       selectedTv = tv;
       print('Selected Movie: ${tv['name']}');
-
       emit(MoviesGetTVMovieDataSucessState());
     } catch (error) {
       emit(MoviesGetTVMovieDataErrorState(error.toString()));

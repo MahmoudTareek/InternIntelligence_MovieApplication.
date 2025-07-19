@@ -14,6 +14,8 @@ class SelectedTVScreen extends StatelessWidget {
     Future.microtask(() {
       MoviesCubit.get(context).getSelectedTv(id: Id);
     });
+    var cubit = MoviesCubit.get(context);
+    var reviewController = TextEditingController();
     return BlocConsumer<MoviesCubit, MoviesState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -33,6 +35,7 @@ class SelectedTVScreen extends StatelessWidget {
                   icon: Icon(Icons.arrow_back, color: secondryColor),
                   onPressed: () {
                     Navigator.pop(context);
+                    cubit.allReviews.clear();
                   },
                 ),
               ),
@@ -41,7 +44,6 @@ class SelectedTVScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: BlocBuilder<MoviesCubit, MoviesState>(
             builder: (context, state) {
-              var cubit = MoviesCubit.get(context);
               final tv = cubit.selectedTv;
               if (tv == null) {
                 return Center(
@@ -54,6 +56,7 @@ class SelectedTVScreen extends StatelessWidget {
                   children: [
                     Stack(
                       alignment: Alignment.bottomCenter,
+                      clipBehavior: Clip.none,
                       children: [
                         Image.network(
                           'https://image.tmdb.org/t/p/w500${tv['poster_path']}',
@@ -75,7 +78,7 @@ class SelectedTVScreen extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 35.0),
                       child: Center(
                         child: Text(
                           tv['name'],
@@ -100,7 +103,13 @@ class SelectedTVScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                'Category: ${tv['genres'][0]['name']}, ${tv['genres'][1]['name']}',
+                                'Category: ' +
+                                    (tv['genres'].length > 0
+                                        ? tv['genres'][0]['name']
+                                        : 'N/A') +
+                                    (tv['genres'].length > 1
+                                        ? ', ${tv['genres'][1]['name']}'
+                                        : ''),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -114,7 +123,7 @@ class SelectedTVScreen extends StatelessWidget {
                               Icon(Icons.language, color: secondryColor),
                               SizedBox(width: 5),
                               Text(
-                                'Language: ${tv['spoken_languages'][0]['name']}',
+                                'Language: ${tv['spoken_languages'].isNotEmpty ? tv['spoken_languages'][0]['name'] : 'Unknown'}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -146,6 +155,105 @@ class SelectedTVScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
+                    SizedBox(height: 5.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: defaultFormField(
+                        context: context,
+                        controller: reviewController,
+                        type: TextInputType.text,
+                        validate: ((value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your review';
+                          }
+                          return null;
+                        }),
+                        label: 'Review',
+                        prefix: Icons.reviews,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Row(
+                      children: [
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0, top: 10.0),
+                          child: Container(
+                            width: 150.0,
+                            child: defaultButton(
+                              function: () {
+                                if (reviewController.text.isNotEmpty) {
+                                  cubit.addUserReveiw(
+                                    movieID: tv['id'].toString(),
+                                    reveiw: reviewController.text,
+                                    username: cubit.user?.username.toString(),
+                                  );
+                                  Future.delayed(
+                                    Duration(milliseconds: 100),
+                                    () {
+                                      MoviesCubit.get(context).getUserReveiw(
+                                        movieID: tv['id'].toString(),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              text: 'Add a Review',
+                              background: primaryColor,
+                              radius: 50.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (cubit.allReviews.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              'Reviews:',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          for (int i = 0; i < cubit.allReviews.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 20.0),
+                                  IgnorePointer(
+                                    child: TextFormField(
+                                      initialValue:
+                                          cubit.allReviews[i]['review'],
+                                      style: TextStyle(color: Colors.white),
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            cubit.allReviews[i]['username'] ??
+                                            'Anonymous',
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
                   ],
                 ),
               );

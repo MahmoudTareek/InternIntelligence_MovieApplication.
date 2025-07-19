@@ -104,6 +104,9 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
+                      MoviesCubit.get(context).getUserReveiw(
+                        movieID: cubit.trendingMovies[index]['id'].toString(),
+                      );
                       navigateTo(
                         context,
                         SelectedMovieScreen(
@@ -143,6 +146,9 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
+                      MoviesCubit.get(context).getUserReveiw(
+                        movieID: cubit.topRatedMovies[index]['id'].toString(),
+                      );
                       navigateTo(
                         context,
                         SelectedMovieScreen(
@@ -182,6 +188,9 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
+                      MoviesCubit.get(context).getUserReveiw(
+                        movieID: cubit.movies_list[index]['id'].toString(),
+                      );
                       navigateTo(
                         context,
                         SelectedMovieScreen(Id: cubit.movies_list[index]['id']),
@@ -218,6 +227,9 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
+                      MoviesCubit.get(context).getUserReveiw(
+                        movieID: cubit.tv_list[index]['id'].toString(),
+                      );
                       navigateTo(
                         context,
                         SelectedTVScreen(Id: cubit.tv_list[index]['id']),
@@ -255,6 +267,9 @@ class MoviesScreen extends StatelessWidget {
                     },
                     favorite: Icons.favorite,
                     onTap: (index) {
+                      MoviesCubit.get(context).getUserReveiw(
+                        movieID: cubit.upComingMovies[index]['id'].toString(),
+                      );
                       navigateTo(
                         context,
                         SelectedMovieScreen(
