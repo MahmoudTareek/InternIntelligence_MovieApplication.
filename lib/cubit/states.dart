@@ -176,3 +176,21 @@ class MoviesByGenreErrorState extends MoviesState {
   final String error;
   MoviesByGenreErrorState(this.error);
 }
+
+class MoviesSendReveiwLoadingState extends MoviesState {}
+
+class MoviesSendReveiwSuccessState extends MoviesState {}
+
+class MoviesSendReveiwErrorState extends MoviesState {
+  final String error;
+  MoviesSendReveiwErrorState(this.error);
+}
+
+class MoviesGetReveiwLoadingState extends MoviesState {}
+
+class MoviesGetReveiwSuccessState extends MoviesState {}
+
+class MoviesGetReveiwErrorState extends MoviesState {
+  final String error;
+  MoviesGetReveiwErrorState(this.error);
+}

@@ -6,8 +6,11 @@ Widget defaultButton({
   bool isDisabled = false,
   double width = double.infinity,
   Color background = Colors.red,
+  Color color = Colors.white,
   bool isUpperCase = true,
   double radius = 0.0,
+  double fontSize = 14.0,
+  FontWeight fontWeight = FontWeight.w500,
   required String text,
 }) => Container(
   width: width,
@@ -15,7 +18,11 @@ Widget defaultButton({
     onPressed: function,
     child: Text(
       isUpperCase ? text.toUpperCase() : text,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ),
     ),
   ),
   decoration: BoxDecoration(

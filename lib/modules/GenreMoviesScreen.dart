@@ -4,8 +4,8 @@ import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/shared/components.dart';
 
 class GenreMoviesScreen extends StatelessWidget {
-  final List<dynamic> genreMovies;
-  const GenreMoviesScreen({super.key, required this.genreMovies});
+  final String genreName;
+  const GenreMoviesScreen({super.key, required this.genreName});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class GenreMoviesScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(genreMovies[0], style: TextStyle(color: Colors.white)),
+        title: Text(genreName, style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body:

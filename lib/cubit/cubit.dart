@@ -71,6 +71,8 @@ class MoviesCubit extends Cubit<MoviesState> {
     emit(MoviesChangePasswordVisibilityState());
   }
 
+  String? uid;
+
   void userLogin({
     required String email,
     required String password,
@@ -81,7 +83,7 @@ class MoviesCubit extends Cubit<MoviesState> {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
           emit(MoviesLoginLoadingState());
-          final uid = value.user!.uid;
+          uid = value.user!.uid;
           print('User ID: $uid');
           getUserData(uid, context);
         })
@@ -108,6 +110,7 @@ class MoviesCubit extends Cubit<MoviesState> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()),
           );
+          uid = '';
           currentIndex = 0;
         })
         .catchError((error) {
@@ -267,13 +270,12 @@ class MoviesCubit extends Cubit<MoviesState> {
 
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user!.id)
+        .doc(uid)
         .update({
           'favorites': FieldValue.arrayUnion([favData]),
         })
         .then((value) {
           emit(MoviesAddedToUserSucessState());
-          print('ADDED');
           Fluttertoast.showToast(
             msg: "$title Added to Favorites!",
             toastLength: Toast.LENGTH_SHORT,
@@ -386,6 +388,7 @@ class MoviesCubit extends Cubit<MoviesState> {
 
       selectedMovie = movie;
       print('Selected Movie: ${movie['title']}');
+      getUserReveiw(movieID: id.toString());
 
       emit(MoviesGetSelectedMovieDataSucessState());
     } catch (error) {
@@ -418,11 +421,81 @@ class MoviesCubit extends Cubit<MoviesState> {
     try {
       final tmdbService = TMDBService();
       final selectedGenre = await tmdbService.getMoviesByGenre(genreId);
-      print("HEEEEEEERE");
       genreMovies = selectedGenre;
       emit(MoviesByGenreSuccessState());
     } catch (error) {
       emit(MoviesByGenreErrorState(error.toString()));
     }
+  }
+
+  void addUserReveiw({required movieID, required username, required reveiw}) {
+    emit(MoviesSendReveiwLoadingState());
+    FirebaseFirestore.instance
+        .collection('review')
+        .doc(movieID)
+        .set({
+          '$uid': FieldValue.arrayUnion([
+            {'username': username, 'review': reveiw},
+          ]),
+        }, SetOptions(merge: true))
+        .then((value) {
+          emit(MoviesSendReveiwSuccessState());
+          Fluttertoast.showToast(
+            msg: "$username Added a Review Successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        })
+        .catchError((error) {
+          emit(MoviesSendReveiwErrorState(error));
+          Fluttertoast.showToast(
+            msg: "Your Review Not Added, Try Again",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        });
+  }
+
+  // List<Map<String, dynamic>> userReviews = [];
+  List<Map<String, dynamic>> allReviews = [];
+
+  void getUserReveiw({required movieID}) {
+    emit(MoviesGetReveiwLoadingState());
+    FirebaseFirestore.instance
+        .collection('review')
+        .doc(movieID)
+        .get()
+        .then((value) {
+          if (value.exists) {
+            final data = value.data() as Map<String, dynamic>;
+            final reviews = data[uid] as List<dynamic>?;
+            if (reviews != null) {
+              final data = value.data() as Map<String, dynamic>;
+
+              data.forEach((key, value) {
+                final userReviews = value as List<dynamic>;
+                for (var review in userReviews) {
+                  allReviews.add({
+                    'username': review['username'],
+                    'review': review['review'],
+                  });
+                }
+              });
+            }
+          }
+        })
+        .catchError((error) {
+          debugPrint(error.toString());
+
+          emit(MoviesGetReveiwErrorState(error.toString()));
+        });
   }
 }

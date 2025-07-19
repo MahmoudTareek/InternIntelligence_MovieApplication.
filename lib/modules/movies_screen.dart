@@ -60,16 +60,21 @@ class MoviesScreen extends StatelessWidget {
                                     backgroundColor: primaryColor,
                                   ),
                                   onPressed: () async {
-                                    // await MoviesCubit.get(
-                                    //   context,
-                                    // ).getMoviesByGenre(genre['id']);
-                                    // navigateTo(
-                                    //   context,
-                                    //   GenreMoviesScreen(
-                                    //     genreMovies:
-                                    //         genre['name'] ?? 'Unknown Genre',
-                                    //   ),
-                                    // );
+                                    print(genre['id']);
+                                    print(genre['name']);
+                                    await MoviesCubit.get(
+                                      context,
+                                    ).getMoviesByGenre(genre['id']).then((
+                                      value,
+                                    ) {
+                                      navigateTo(
+                                        context,
+                                        GenreMoviesScreen(
+                                          genreName:
+                                              genre['name'] ?? 'Unknown Genre',
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: Text(
                                     '${genre['name']}',
