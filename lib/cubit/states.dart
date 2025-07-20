@@ -194,3 +194,21 @@ class MoviesGetReveiwErrorState extends MoviesState {
   final String error;
   MoviesGetReveiwErrorState(this.error);
 }
+
+class MoviesGetRecommendationMoviesLoadingState extends MoviesState {}
+
+class MoviesGetRecommendationMoviesSuccessState extends MoviesState {}
+
+class MoviesGetRecommendationMoviesErrorState extends MoviesState {
+  final String error;
+  MoviesGetRecommendationMoviesErrorState(this.error);
+}
+
+class MoviesGetRecommendationSeriesLoadingState extends MoviesState {}
+
+class MoviesGetRecommendationSeriesSuccessState extends MoviesState {}
+
+class MoviesGetRecommendationSeriesErrorState extends MoviesState {
+  final String error;
+  MoviesGetRecommendationSeriesErrorState(this.error);
+}

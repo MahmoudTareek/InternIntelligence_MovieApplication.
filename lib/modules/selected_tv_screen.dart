@@ -13,6 +13,7 @@ class SelectedTVScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.microtask(() {
       MoviesCubit.get(context).getSelectedTv(id: Id);
+      MoviesCubit.get(context).getRecommendationTVs(tv_id: Id);
     });
     var cubit = MoviesCubit.get(context);
     var reviewController = TextEditingController();
@@ -254,6 +255,89 @@ class SelectedTVScreen extends StatelessWidget {
                             ),
                         ],
                       ),
+                    SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recommended Series:',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 250.0,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: cubit.recommendationsTV.length,
+                                    separatorBuilder:
+                                        (context, index) =>
+                                            SizedBox(width: 10.0),
+                                    itemBuilder: (context, index) {
+                                      final recommendedSerie =
+                                          cubit.recommendationsTV[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          navigateTo(
+                                            context,
+                                            SelectedTVScreen(
+                                              Id: recommendedSerie['id'],
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 120.0,
+                                              height: 180.0,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    'https://image.tmdb.org/t/p/w500${recommendedSerie['poster_path']}',
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5.0),
+                                            Container(
+                                              width: 120.0,
+                                              child: Text(
+                                                recommendedSerie['title'] ??
+                                                    'Unknown Title',
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               );

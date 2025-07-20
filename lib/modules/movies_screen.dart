@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
-import 'package:movies_application/modules/GenreMoviesScreen.dart';
 import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/modules/selected_tv_screen.dart';
 import 'package:movies_application/shared/components.dart';
@@ -29,69 +28,62 @@ class MoviesScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.list, color: Colors.white, size: 30),
-                          SizedBox(width: 10),
-                          Text(
-                            'Categories',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        height: 54,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final genre = cubit.genres[index];
-                            return Column(
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: primaryColor,
-                                  ),
-                                  onPressed: () async {
-                                    print(genre['id']);
-                                    print(genre['name']);
-                                    await MoviesCubit.get(
-                                      context,
-                                    ).getMoviesByGenre(genre['id']).then((
-                                      value,
-                                    ) {
-                                      navigateTo(
-                                        context,
-                                        GenreMoviesScreen(
-                                          genreName:
-                                              genre['name'] ?? 'Unknown Genre',
-                                        ),
-                                      );
-                                    });
-                                  },
-                                  child: Text(
-                                    '${genre['name']}',
-                                    style: TextStyle(color: secondryColor),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                              ],
-                            );
-                          },
-                          separatorBuilder:
-                              (context, index) => SizedBox(width: 10),
-                          itemCount: cubit.genres.length,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     // Row(
+                  //     //   children: [
+                  //     //     Icon(Icons.list, color: Colors.white, size: 30),
+                  //     //     SizedBox(width: 10),
+                  //     //     Text(
+                  //     //       'Categories',
+                  //     //       style: TextStyle(
+                  //     //         color: Colors.white,
+                  //     //         fontSize: 28.0,
+                  //     //         fontWeight: FontWeight.bold,
+                  //     //       ),
+                  //     //     ),
+                  //     //   ],
+                  //     // ),
+                  //     // SizedBox(height: 20),
+                  //     // SizedBox(
+                  //     //   height: 54,
+                  //     //   child: ListView.separated(
+                  //     //     shrinkWrap: true,
+                  //     //     scrollDirection: Axis.horizontal,
+                  //     //     itemBuilder: (context, index) {
+                  //     //       final genre = cubit.genres[index];
+                  //     //       return Column(
+                  //     //         children: [
+                  //     //           ElevatedButton(
+                  //     //             style: ElevatedButton.styleFrom(
+                  //     //               backgroundColor: primaryColor,
+                  //     //             ),
+                  //     //             onPressed: () async {
+                  //     //               print(genre['id']);
+                  //     //               print(genre['name']);
+                  //     //               navigateTo(
+                  //     //                 context,
+                  //     //                 GenreMoviesScreen(
+                  //     //                   genreID: genre['id'].toString(),
+                  //     //                 ),
+                  //     //               );
+                  //     //             },
+                  //     //             child: Text(
+                  //     //               '${genre['name']}',
+                  //     //               style: TextStyle(color: secondryColor),
+                  //     //             ),
+                  //     //           ),
+                  //     //           SizedBox(height: 5),
+                  //     //         ],
+                  //     //       );
+                  //     //     },
+                  //     //     separatorBuilder:
+                  //     //         (context, index) => SizedBox(width: 10),
+                  //     //     itemCount: cubit.genres.length,
+                  //     //   ),
+                  //     // ),
+                  //   ],
+                  // ),
                   itemBuilder(
                     onFavoriteTap: (index) {
                       MoviesCubit.get(context).addToFavorites(

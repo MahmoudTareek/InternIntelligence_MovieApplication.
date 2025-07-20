@@ -241,6 +241,33 @@ class MoviesCubit extends Cubit<MoviesState> {
     }
   }
 
+  List<dynamic> recommendationsMovies = [];
+
+  void getRecommendationMovies({required movie_id}) async {
+    emit(MoviesGetRecommendationMoviesLoadingState());
+    try {
+      recommendationsMovies = await TMDBService().getRecommendationMovies(
+        movie_id,
+      );
+      emit(MoviesGetRecommendationMoviesSuccessState());
+    } catch (error) {
+      emit(MoviesGetRecommendationMoviesErrorState(error.toString()));
+    }
+  }
+
+  List<dynamic> recommendationsTV = [];
+
+  void getRecommendationTVs({required tv_id}) async {
+    emit(MoviesGetRecommendationSeriesLoadingState());
+    try {
+      recommendationsTV = await TMDBService().getRecommendationMovies(tv_id);
+      print(recommendationsTV);
+      emit(MoviesGetRecommendationSeriesSuccessState());
+    } catch (error) {
+      emit(MoviesGetRecommendationSeriesErrorState(error.toString()));
+    }
+  }
+
   List<dynamic> genres = [];
 
   Future<void> fetchGenres() async {
@@ -408,20 +435,6 @@ class MoviesCubit extends Cubit<MoviesState> {
       emit(MoviesGetTVMovieDataSucessState());
     } catch (error) {
       emit(MoviesGetTVMovieDataErrorState(error.toString()));
-    }
-  }
-
-  List<dynamic>? genreMovies;
-
-  Future<void> getMoviesByGenre(int genreId) async {
-    emit(MoviesByGenreLoadingState());
-    try {
-      final tmdbService = TMDBService();
-      final selectedGenre = await tmdbService.getMoviesByGenre(genreId);
-      genreMovies = selectedGenre;
-      emit(MoviesByGenreSuccessState());
-    } catch (error) {
-      emit(MoviesByGenreErrorState(error.toString()));
     }
   }
 

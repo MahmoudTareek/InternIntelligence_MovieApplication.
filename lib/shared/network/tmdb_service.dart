@@ -85,15 +85,27 @@ class TMDBService {
     }
   }
 
-  Future<List<dynamic>> getMoviesByGenre(int genreId) async {
+  Future<List<dynamic>> getRecommendationMovies(int movie_id) async {
     final response = await _dio.get(
-      '$baseUrl/discover/movie',
-      queryParameters: {'api_key': apiKey, 'with_genres': genreId},
+      '$baseUrl/movie/${movie_id}/recommendations',
+      queryParameters: {'api_key': apiKey},
     );
     if (response.statusCode == 200) {
-      return response.data;
+      return response.data['results'];
     } else {
-      throw Exception('Failed to get movie genres');
+      throw Exception('Failed to get recommendations movies');
+    }
+  }
+
+  Future<List<dynamic>> getRecommendationTVs(int tv_id) async {
+    final response = await _dio.get(
+      '$baseUrl/movie/${tv_id}/recommendations',
+      queryParameters: {'api_key': apiKey},
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    } else {
+      throw Exception('Failed to get recommendations series');
     }
   }
 
