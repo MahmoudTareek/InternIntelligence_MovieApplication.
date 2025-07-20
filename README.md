@@ -46,14 +46,14 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 
 ## Screenshots
   
-![alt text](assets/images/1.jpg)
-![alt text](assets/images/2.jpg)
-![alt text](assets/images/3.jpg)
-![alt text](assets/images/4.jpg)
-![alt text](assets/images/5.jpg)
-![alt text](assets/images/6.jpg)
-![alt text](assets/images/7.jpg)
-![alt text](assets/images/8.jpg)
-![alt text](assets/images/9.jpg)
+![alt text](assets/Screenshots/1.jpg)
+![alt text](assets/Screenshots/2.jpg)
+![alt text](assets/Screenshots/3.jpg)
+![alt text](assets/Screenshots/4.jpg)
+![alt text](assets/Screenshots/5.jpg)
+![alt text](assets/Screenshots/6.jpg)
+![alt text](assets/Screenshots/7.jpg)
+![alt text](assets/Screenshots/8.jpg)
+![alt text](assets/Screenshots/9.jpg)
   
   
