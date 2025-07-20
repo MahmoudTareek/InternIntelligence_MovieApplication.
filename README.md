@@ -47,9 +47,9 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 ## Screenshots
   
 <p align="center">
-  <img src="assets/screenshots/1.jpg" width="200"/>
-  <img src="assets/screenshots/2.jpg" width="200"/>
-  <img src="assets/screenshots/3.jpg" width="200"/>
+  <img src="assets/Screenshots/1.jpg" width="200"/>
+  <img src="assets/Screenshots/2.jpg" width="200"/>
+  <img src="assets/Screenshots/3.jpg" width="200"/>
 </p>
 
 <p align="center">
@@ -59,9 +59,9 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 </p>
   
 <p align="center">
-  <img src="assets/screenshots/4.jpg" width="200"/>
-  <img src="assets/screenshots/5.jpg" width="200"/>
-  <img src="assets/screenshots/6.jpg" width="200"/>
+  <img src="assets/Screenshots/4.jpg" width="200"/>
+  <img src="assets/Screenshots/5.jpg" width="200"/>
+  <img src="assets/Screenshots/6.jpg" width="200"/>
 </p>
 
 <p align="center">
@@ -71,9 +71,9 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 </p>
   
 <p align="center">
-  <img src="assets/screenshots/7.jpg" width="200"/>
-  <img src="assets/screenshots/8.jpg" width="200"/>
-  <img src="assets/screenshots/9.jpg" width="200"/>
+  <img src="assets/Screenshots/7.jpg" width="200"/>
+  <img src="assets/Screenshots/8.jpg" width="200"/>
+  <img src="assets/Screenshots/9.jpg" width="200"/>
 </p>
 
 <p align="center">
