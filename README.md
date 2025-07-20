@@ -52,11 +52,6 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
   <img src="assets/Screenshots/3.jpg" width="200"/>
 </p>
 
-<p align="center">
-  <b>Login screen</b> &nbsp;&nbsp;&nbsp;
-  <b>Home</b> &nbsp;&nbsp;&nbsp;
-  <b>Movie Details</b>
-</p>
   
 <p align="center">
   <img src="assets/Screenshots/4.jpg" width="200"/>
@@ -64,11 +59,6 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
   <img src="assets/Screenshots/6.jpg" width="200"/>
 </p>
 
-<p align="center">
-  <b>Review & Recommendations</b> &nbsp;&nbsp;&nbsp;
-  <b>Favorite screen</b> &nbsp;&nbsp;&nbsp;
-  <b>Favorites list</b>
-</p>
   
 <p align="center">
   <img src="assets/Screenshots/7.jpg" width="200"/>
@@ -76,9 +66,3 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
   <img src="assets/Screenshots/9.jpg" width="200"/>
 </p>
 
-<p align="center">
-  <b>Search screen</b> &nbsp;&nbsp;&nbsp;
-  <b>Search results</b> &nbsp;&nbsp;&nbsp;
-  <b>Profile</b>
-</p>
-  
