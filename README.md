@@ -65,7 +65,7 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 </p>
 
 <p align="center">
-  <b>Review % Recommendations</b> &nbsp;&nbsp;&nbsp;
+  <b>Review & Recommendations</b> &nbsp;&nbsp;&nbsp;
   <b>Favorite screen</b> &nbsp;&nbsp;&nbsp;
   <b>Favorites list</b>
 </p>
