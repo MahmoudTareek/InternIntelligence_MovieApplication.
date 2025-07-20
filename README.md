@@ -1,16 +1,51 @@
-# movies_application
+# Movies Application
 
-A new Flutter project.
+Developed a Movies Application with a clean architecture using BLoC and TMDB API.
 
-## Getting Started
+## Application Features
 
-This project is a starting point for a Flutter application.
+- Simple UI screens.
+  
+- Bottom navigation bar to switch between screens easily.
+  
+- Home screen that contains:
+  
+  Login screen.
+  
+  Trending Movies.
+  
+  Top Rated Movies.
+  
+  Upcoming Movies.
 
-A few resources to get you started if this is your first Flutter project:
+- Movie screen that contains:
+  
+  Details about the Movie.
+  
+  Reveiws on the Movie.
+  
+  Recommendation Movies.
+  
+- Series screen that contains:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  Details about the Serie.
+  
+  Reveiws on the Serie.
+  
+  Recommendation Series.
+  
+- User can add Reveiw for Movies & Series.
+  
+- User can add Movies & Series to Favorites.
+  
+- Favorites screen has user's favorites list.
+  
+- User can update Username & Email.
+  
+    
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+  
+
+  
+  
