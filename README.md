@@ -46,8 +46,39 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 
 ## Screenshots
   
-![alt text](assets/Screenshots/1.jpg,assets/Screenshots/2.jpg,assets/Screenshots/3.jpg)
-![alt text](assets/Screenshots/4.jpg,assets/Screenshots/5.jpg,assets/Screenshots/6.jpg)
-![alt text](assets/Screenshots/7.jpg,assets/Screenshots/8.jpg,assets/Screenshots/9.jpg)
+<p align="center">
+  <img src="assets/screenshots/1.jpg" width="200"/>
+  <img src="assets/screenshots/2.jpg" width="200"/>
+  <img src="assets/screenshots/3.jpg" width="200"/>
+</p>
+
+<p align="center">
+  <b>Login screen</b> &nbsp;&nbsp;&nbsp;
+  <b>Home</b> &nbsp;&nbsp;&nbsp;
+  <b>Movie Details</b>
+</p>
   
+<p align="center">
+  <img src="assets/screenshots/4.jpg" width="200"/>
+  <img src="assets/screenshots/5.jpg" width="200"/>
+  <img src="assets/screenshots/6.jpg" width="200"/>
+</p>
+
+<p align="center">
+  <b>Review % Recommendations</b> &nbsp;&nbsp;&nbsp;
+  <b>Favorite screen</b> &nbsp;&nbsp;&nbsp;
+  <b>Favorites list</b>
+</p>
+  
+<p align="center">
+  <img src="assets/screenshots/7.jpg" width="200"/>
+  <img src="assets/screenshots/8.jpg" width="200"/>
+  <img src="assets/screenshots/9.jpg" width="200"/>
+</p>
+
+<p align="center">
+  <b>Search screen</b> &nbsp;&nbsp;&nbsp;
+  <b>Search results</b> &nbsp;&nbsp;&nbsp;
+  <b>Profile</b>
+</p>
   
