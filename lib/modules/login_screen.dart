@@ -30,9 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(
-                    'https://s3.us-west-1.amazonaws.com/redwood-labs/showpage/uploads/images/9c8ede6c-056e-474d-870c-8b0ec386ae8a.jpeg',
-                  ),
+                  image: AssetImage('assets/Coverr.png'),
                   fit: BoxFit.cover,
                 ),
               ),

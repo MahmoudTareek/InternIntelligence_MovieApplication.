@@ -20,90 +20,102 @@ class ProfileScreen extends StatelessWidget {
         TextEditingController emailController = TextEditingController(
           text: cubit.user?.email.toString(),
         );
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                        'https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  defaultFormField(
-                    context: context,
-                    controller: userNameController,
-                    type: TextInputType.text,
-                    validate: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter your name';
-                      }
-                      return null;
-                    },
-                    label: 'User Name',
-                    prefix: Icons.person,
-                  ),
-                  SizedBox(height: 20),
-                  defaultFormField(
-                    context: context,
-                    controller: emailController,
-                    type: TextInputType.text,
-                    validate: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (!RegExp(
-                        r'^[^@]+@[^@]+\.[^@]+',
-                      ).hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                    label: 'Email',
-                    prefix: Icons.email,
-                  ),
-                  SizedBox(height: 30),
-                  Row(
+        return Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/Coverr.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Scaffold(
+              backgroundColor: Colors.black87,
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: defaultButton(
-                          function: () {
-                            MoviesCubit.get(context).updateUserData(
-                              id: cubit.user?.id.toString(),
-                              username: userNameController.text,
-                              email: emailController.text,
-                            );
-                          },
-                          text: 'update',
-                          background: Colors.blue,
-                          radius: 50.0,
+                      Center(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                            'https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg',
+                          ),
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: defaultButton(
-                          function: () {
-                            MoviesCubit.get(
-                              context,
-                            ).userSignout(context: context);
-                          },
-                          text: 'Logout',
-                          background: Colors.red,
-                          radius: 50.0,
-                        ),
+                      SizedBox(height: 30),
+                      defaultFormField(
+                        context: context,
+                        controller: userNameController,
+                        type: TextInputType.text,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                        label: 'User Name',
+                        prefix: Icons.person,
+                      ),
+                      SizedBox(height: 20),
+                      defaultFormField(
+                        context: context,
+                        controller: emailController,
+                        type: TextInputType.text,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                            r'^[^@]+@[^@]+\.[^@]+',
+                          ).hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
+                        label: 'Email',
+                        prefix: Icons.email,
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: defaultButton(
+                              function: () {
+                                MoviesCubit.get(context).updateUserData(
+                                  id: cubit.user?.id.toString(),
+                                  username: userNameController.text,
+                                  email: emailController.text,
+                                );
+                              },
+                              text: 'update',
+                              background: Colors.blue,
+                              radius: 50.0,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: defaultButton(
+                              function: () {
+                                MoviesCubit.get(
+                                  context,
+                                ).userSignout(context: context);
+                              },
+                              text: 'Logout',
+                              background: Colors.red,
+                              radius: 50.0,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
