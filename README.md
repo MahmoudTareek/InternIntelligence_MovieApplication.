@@ -6,15 +6,19 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
 
 - Simple UI screens.
   
+- Login using Firebase Authentication.
+  
 - Bottom navigation bar to switch between screens easily.
   
 - Home screen that contains:
-  
-  Login screen.
-  
+    
   Trending Movies.
   
   Top Rated Movies.
+  
+  New Movies.
+  
+  New Series.
   
   Upcoming Movies.
 
@@ -28,9 +32,9 @@ Developed a Movies Application with a clean architecture using BLoC and TMDB API
   
 - Series screen that contains:
 
-  Details about the Serie.
+  Details about the Series.
   
-  Reveiws on the Serie.
+  Reveiws on the Series.
   
   Recommendation Series.
   
