@@ -4,6 +4,7 @@ import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:movies_application/modules/selected_movie_screen.dart';
 import 'package:movies_application/shared/components.dart';
+import 'package:movies_application/shared/styles/iconly_broken.dart';
 
 class SreachScreen extends StatelessWidget {
   const SreachScreen({super.key});
@@ -25,7 +26,7 @@ class SreachScreen extends StatelessWidget {
         Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: secondryColor),
+              icon: Icon(IconlyBroken.arrowLeft, color: secondryColor),
               onPressed: () {
                 Navigator.pop(context);
                 cubit.searchResults.clear();
