@@ -15,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:movies_application/shared/network/endpoints.dart';
 import 'package:movies_application/shared/network/tmdb_service.dart';
+import 'package:movies_application/shared/styles/iconly_broken.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitialState());
@@ -24,9 +25,9 @@ class MoviesCubit extends Cubit<MoviesState> {
   int currentIndex = 0;
 
   List<BottomNavigationBarItem> bottomItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+    BottomNavigationBarItem(icon: Icon(IconlyBroken.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(IconlyBroken.heart), label: 'Favorites'),
+    BottomNavigationBarItem(icon: Icon(IconlyBroken.profile), label: 'Profile'),
   ];
 
   List<String> titles = ['Home', 'Favorites', 'Profile'];

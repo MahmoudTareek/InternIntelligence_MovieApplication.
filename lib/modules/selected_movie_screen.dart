@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:movies_application/shared/components.dart';
+import 'package:movies_application/shared/styles/iconly_broken.dart';
 
 class SelectedMovieScreen extends StatefulWidget {
   var Id;
@@ -42,7 +43,7 @@ class _SelectedMovieScreenState extends State<SelectedMovieScreen> {
                   color: Colors.black45,
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: secondryColor),
+                  icon: Icon(IconlyBroken.arrowLeft, color: secondryColor),
                   onPressed: () {
                     Navigator.pop(context);
                     cubit.allReviews.clear();

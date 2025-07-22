@@ -4,6 +4,7 @@ import 'package:movies_application/cubit/cubit.dart';
 import 'package:movies_application/cubit/states.dart';
 import 'package:movies_application/modules/search_screen.dart';
 import 'package:movies_application/shared/components.dart';
+import 'package:movies_application/shared/styles/iconly_broken.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,11 +27,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             actions: [
-              IconButton(
-                icon: Icon(Icons.search, color: secondryColor),
-                onPressed: () {
-                  navigateTo(context, SreachScreen());
-                },
+              Padding(
+                padding: const EdgeInsets.only(right: 3.0),
+                child: IconButton(
+                  icon: Icon(IconlyBroken.search, color: secondryColor),
+                  onPressed: () {
+                    navigateTo(context, SreachScreen());
+                  },
+                ),
               ),
             ],
             backgroundColor: Colors.black,
